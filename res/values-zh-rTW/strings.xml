@@ -16,7 +16,7 @@
     <string name="hint_hide_below">每秒幾的byte</string>
     <string name="sum0_hide_below">永遠顯示網速</string>
     <string name="sum1_hide_below">在網速為0時隱藏</string>
-    <string name="unit_hide_below">再網速為 %s B/s 以下時隱藏</string> <!-- see note -->
+    <string name="unit_hide_below">在網速為 %s B/s 以下時隱藏</string> <!-- see note -->
     <string name="pref_show_suffix">永遠顯示後綴</string>
     <string name="pref_networktype">連網模式</string>
     <string name="pref_networkspeed">網路速度</string>
