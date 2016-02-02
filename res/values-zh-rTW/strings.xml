@@ -2,7 +2,7 @@
 <resources>
     
     <string name="app_name">Network Speed Indicator</string>
-    <string name="app_description">再狀態攔上顯示網路速度</string>
+    <string name="app_description">在狀態攔上顯示網路速度</string>
     <string name="pref_category_ind_settings">顯示器設定</string>
     <string name="pref_category_ind_appearance">顯示器外觀</string>
     <string name="pref_category_unit_settings">單位設定</string>
@@ -65,10 +65,10 @@
     </string-array>
     
     <string-array name="networktype_entries">
-        <item>Mobile</item>
+        <item>行動數據</item>
         <item>Wi-Fi</item>
         <item>WiMAX</item>
-        <item>Bluetooth</item>
+        <item>藍牙</item>
         <item>Ethernet</item>
         <item>Wi-Fi Direct</item>
     </string-array>
