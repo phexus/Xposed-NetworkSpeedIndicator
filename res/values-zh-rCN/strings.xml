@@ -26,6 +26,7 @@
     <string name="pref_position">位置</string>
     <string name="pref_suffix">图标</string>
     <string name="pref_display">行数</string>
+    <string name="pref_swap_speeds">交换上传下载位置</string>
     <string name="pref_update_interval">更新频率</string>
     <string name="hint_update_interval">毫秒</string>
     <string name="unit_update_interval">%s ms</string> <!-- see note -->
