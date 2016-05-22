@@ -330,14 +330,14 @@ public final class TrafficView extends TextView {
 			
 			long loBytes = Long.parseLong(line);
 
-      long tun0Bytes = 0;
+			long tun0Bytes = 0;
 
-      File tun0 = new File("/sys/class/net/tun0");
-      if (tun0.exists()) {
-        br2 = new BufferedReader(new FileReader("/sys/class/net/tun0/statistics/" + (tx ? "tx" : "rx") + "_bytes"));
-        String line2 = br2.readLine();
-        tun0Bytes = Long.parseLong(line2);
-      }
+			File tun0 = new File("/sys/class/net/tun0");
+			if (tun0.exists()) {
+				br2 = new BufferedReader(new FileReader("/sys/class/net/tun0/statistics/" + (tx ? "tx" : "rx") + "_bytes"));
+				String line2 = br2.readLine();
+				tun0Bytes = Long.parseLong(line2);
+			}
 			
 			Log.d(TAG, traffic_direction, " total: ", totalBytes, ", lo: ", loBytes, "tun0: ", tun0Bytes);
 			
@@ -350,6 +350,13 @@ public final class TrafficView extends TextView {
 			if (br != null) {
 				try {
 					br.close();
+				} catch (Exception e) {
+					// ignore
+				}
+			}
+			if (br2 != null) {
+				try {
+					br2.close();
 				} catch (Exception e) {
 					// ignore
 				}
