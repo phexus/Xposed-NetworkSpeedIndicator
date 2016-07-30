@@ -1,3 +1,7 @@
+> **Looking for contributors and testers!** The authors are busy with other commitments and not able to focus on this project. We are sorry. However, if we get substantial contributions from volunteers, we will issue a new release to the app.
+
+> Compatibility is a major issue where your main focus shoud be. Having testers for various devices would be the ideal. Opening more and more issues about incompatibility with your favorite devices is unfortunately not helpful. We're waiting for your **pull requests** to resolve them. [Get started now!](https://github.com/chiehmin/Xposed-NetworkSpeedIndicator/wiki/Libraries-Used) `:D`
+
 Network Speed Indicator
 =======================
 
