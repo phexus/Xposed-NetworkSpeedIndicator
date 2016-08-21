@@ -1,21 +1,28 @@
-> **Looking for contributors and testers!** The authors are busy with other commitments and not able to focus on this project. We are sorry. However, if we get substantial contributions from volunteers, we will issue a new release to the app.
-
-> Compatibility is a major issue where your main focus shoud be. Having testers for various devices would be the ideal. Opening more and more issues about incompatibility with your favorite devices is unfortunately not helpful. We're waiting for your **pull requests** to resolve them. [Get started now!](https://github.com/chiehmin/Xposed-NetworkSpeedIndicator/wiki/Libraries-Used) `:D`
-
-Network Speed Indicator
+Network Speed Indicator for H2OS
 =======================
 
 Displays network speeds on the status bar. Requires a rooted phone with Xposed Module installed.
 
-This is a continuous work from [Dzakus' great work](http://repo.xposed.info/module/pl.com.android.networkspeedindicator). Many thanks to the contributors and translators!
+This is a continuous work from [Dzakus'](http://repo.xposed.info/module/pl.com.android.networkspeedindicator) and [FatMinMin's](http://repo.xposed.info/module/tw.fatminmin.xposed.networkspeedindicator) great work. Many thanks to the contributors and translators!
 
 **Translators,** please see notes below.
 
-To install, look for "NetworkSpeedIndicator" in your **Xposed Installer** app. You can also find the APK file in the [Xposed Repository](http://repo.xposed.info/module/tw.fatminmin.xposed.networkspeedindicator).
+To install, please go to [oneplus bbs](http://www.oneplusbbs.com/thread-2881051-1-1.html) download the newest-version apk.(I'll put it on coolapk.com someday.)
 
-For support, please open a new issue in the **Issues** section. Or you could fork and fix the issue, then give us a pull request! `:)`
+安装这个模块请前往[一加社区](http://www.oneplusbbs.com/thread-2881051-1-1.html)下载最新版本。(后续我可能会将apk发布到酷市场)
 
-For discussions, visit the [XDA thread here](http://forum.xda-developers.com/xposed/modules/xposed-networkspeedindicator-v0-9-t2636971).
+
+Notice
+--------
+This module had been different from [this one](https://github.com/chiehmin/Xposed-NetworkSpeedIndicator).
+
+I had modified this module for doing H2OS supporting, if you are not using H2OS, please don't try to use this module.
+
+注意
+--------
+这个模块已经与[原模块](https://github.com/chiehmin/Xposed-NetworkSpeedIndicator)不同。
+
+我修改了原模块来支持一加的氢OS，如果你并不是氢OS用户，请不要尝试使用这个模块。
 
 Features
 --------
