@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <string name="app_name">Network Speed Indicator</string>
+
+    <string name="app_name">Network Speed Indicator for H2OS</string>
     <string name="app_description">在狀態攔上顯示網路速度</string>
     <string name="pref_category_ind_settings">顯示器設定</string>
     <string name="pref_category_ind_appearance">顯示器外觀</string>
@@ -33,37 +33,36 @@
     <string name="pref_font_style">字體樣式</string>
     <string name="pref_enable_logging">開啟日誌</string>
     <string name="pref_report_issue">回報問題</string>
-    
     <string name="unit_format_hidden">隱藏</string>
     <string name="unit_format_fmt_as">格式化為</string>
     <string name="summary_none">不顯示</string>
     <string name="item_auto">自動</string>
-    <!-- Note about units:
+    <!--
+         Note about units:
          The placeholder %s will be replaced with the actual numeric value.
          If it is omitted, the provided unit will be appended
          at the end of numeric value (for example: 500 ms)
-      -->
-    
+    -->
+
+
     <!-- Color Picker -->
     <string name="dialog_color_picker">選擇一個顏色</string>
     <string name="press_color_to_apply">選擇一個顏色並套用</string>
-    
+
     <string-array name="unit_mode_entries">
         <item>二進位 bits</item>
         <item>二進位 bytes</item>
         <item>十進位 bits</item>
         <item>十進位 bytes</item>
     </string-array>
-    
     <string-array name="unit_format_entries">
         <item>Space prefix</item>
         <item>Factor (K,M)</item>
         <item>Binary mode (i)</item>
         <item>Bytes or bits</item>
-        <item>Per (p,/)</item><!-- can be translated as "Every (p,/)" -->
+        <item>Per (p,/)</item> <!-- can be translated as "Every (p,/)" -->
         <item>Second (s)</item>
     </string-array>
-    
     <string-array name="networktype_entries">
         <item>行動數據</item>
         <item>Wi-Fi</item>
@@ -72,18 +71,14 @@
         <item>Ethernet</item>
         <item>Wi-Fi Direct</item>
     </string-array>
-    
     <string-array name="networkspeed_entries">
         <item>上傳</item>
         <item>下載</item>
     </string-array>
-    
     <string-array name="position_entries">
         <item>左邊</item>
         <item>右邊</item>
-        <item>通知攔</item>
     </string-array>
-    
     <string-array name="suffix_entries">
         <item>不顯示</item>
         <item>實心三角</item>
@@ -91,15 +86,13 @@
         <item>小實心三角</item>
         <item>小空心三角</item>
     </string-array>
-    
     <string-array name="display_entries">
         <item>雙行</item>
         <item>單行</item>
     </string-array>
-    
     <string-array name="font_style_entries">
         <item>粗體</item>
         <item>斜體</item>
     </string-array>
-    
+
 </resources>

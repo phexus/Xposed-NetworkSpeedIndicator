@@ -1,16 +1,16 @@
-package tw.fatminmin.xposed.networkspeedindicator;
+package me.seasonyuu.xposed.networkspeedindicator.h2os;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import tw.fatminmin.xposed.networkspeedindicator.logger.Log;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.logger.Log;
 
 public final class Common {
 
 	private static final String TAG = Common.class.getSimpleName();
-	public static final String PKG_NAME = "tw.fatminmin.xposed.networkspeedindicator";
+	public static final String PKG_NAME = "me.seasonyuu.xposed.networkspeedindicator.h2os";
 	public static final String ACTION_SETTINGS_CHANGED = PKG_NAME + ".changed";
 	
 	public static final String KEY_HIDE_BELOW = "hide_below";
@@ -54,7 +54,7 @@ public final class Common {
 	public static final boolean DEF_SHOW_SUFFIX = false;
 	public static final int DEF_UNIT_MODE = 3; //Decimal bytes
 	public static final int DEF_FORCE_UNIT = 0;
-	public static final float DEF_FONT_SIZE = 10;
+	public static final float DEF_FONT_SIZE = 8;
 	public static final int DEF_POSITION = 0;
 	public static final int DEF_SUFFIX = 1;
 	public static final int DEF_DISPLAY = 0;

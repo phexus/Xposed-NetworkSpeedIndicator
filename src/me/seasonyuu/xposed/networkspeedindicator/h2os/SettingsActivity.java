@@ -1,4 +1,4 @@
-package tw.fatminmin.xposed.networkspeedindicator;
+package me.seasonyuu.xposed.networkspeedindicator.h2os;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
-import tw.fatminmin.xposed.networkspeedindicator.logger.Log;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +21,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.logger.Log;
 
 import com.h6ah4i.android.compat.preference.MultiSelectListPreferenceCompat;
 

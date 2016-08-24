@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tw.fatminmin.xposed.networkspeedindicator"
-    android:versionCode="16"
-    android:versionName="1.0 for h2os" >
+    package="me.seasonyuu.xposed.networkspeedindicator.h2os"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="21"
+        android:targetSdkVersion="21" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -25,8 +25,9 @@
             android:value="@string/app_description" />
 
         <activity
-            android:name="tw.fatminmin.xposed.networkspeedindicator.SettingsActivity"
+            android:name="me.seasonyuu.xposed.networkspeedindicator.h2os.SettingsActivity"
             android:label="@string/app_name" 
+            android:theme="@android:style/Theme.Material.Light"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

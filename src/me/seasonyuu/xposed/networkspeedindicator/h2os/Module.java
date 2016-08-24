@@ -1,4 +1,4 @@
-package tw.fatminmin.xposed.networkspeedindicator;
+package me.seasonyuu.xposed.networkspeedindicator.h2os;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -7,11 +7,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import tw.fatminmin.xposed.networkspeedindicator.logger.Log;
-import tw.fatminmin.xposed.networkspeedindicator.widget.GingerBreadPositionCallbackImpl;
-import tw.fatminmin.xposed.networkspeedindicator.widget.JellyBeanPositionCallbackImpl;
-import tw.fatminmin.xposed.networkspeedindicator.widget.PositionCallbackImpl;
-import tw.fatminmin.xposed.networkspeedindicator.widget.TrafficView;
 import android.annotation.SuppressLint;
 import android.content.res.XResources;
 import android.os.Build;
@@ -29,6 +24,9 @@ import de.robv.android.xposed.XposedHelpers.ClassNotFoundError;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.logger.Log;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback1p2;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.TrafficView;
 
 public final class Module implements IXposedHookLoadPackage,
         IXposedHookInitPackageResources {
@@ -163,6 +161,7 @@ public final class Module implements IXposedHookLoadPackage,
 								
 								if (trafficView == null) {
 								    trafficView = new TrafficView(root.getContext());
+								    trafficView.setMinimumWidth(180);
 								    trafficView.clock = clock;
 								}
 								if (clock != null) {
@@ -174,27 +173,14 @@ public final class Module implements IXposedHookLoadPackage,
 								    	Log.w(TAG, "clock is not a TextView, it is ", clock.getClass().getSimpleName());
 								    	trafficView.setTextColor(Common.ANDROID_SKY_BLUE);
 								    }
-								} else {
-									Log.i(TAG, "Clock: Gingerbread");
-								    trafficView.setLayoutParams(new LayoutParams(
-								            LayoutParams.WRAP_CONTENT,
-								            LayoutParams.MATCH_PARENT));
-								    trafficView.setTextColor(Common.ANDROID_SKY_BLUE);
-								}
+								} 
 								trafficView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
 
 								if (liparam.res.getIdentifier("status_bar_contents", "id", PKG_NAME_SYSTEM_UI) != 0) {
-								    Log.i(TAG, "PositionCallback: KitKat");
-								    trafficView.mPositionCallback = new PositionCallbackImpl();
+								    Log.i(TAG, "PositionCallback: Lollipop");
+								    trafficView.mPositionCallback = new PositionCallback1p2();
 								    
-								} else if (liparam.res.getIdentifier("notification_icon_area", "id",PKG_NAME_SYSTEM_UI) != 0) {
-								    Log.i(TAG, "PositionCallback: Jelly Bean");
-								    trafficView.mPositionCallback = new JellyBeanPositionCallbackImpl();
-								    
-								} else if (liparam.res.getIdentifier("notificationIcons", "id", PKG_NAME_SYSTEM_UI) != 0) {
-									Log.i(TAG, "PositionCallback: Gingerbread");
-								    trafficView.mPositionCallback = new GingerBreadPositionCallbackImpl();
-								}
+								} 
 
 								trafficView.mPositionCallback.setup(liparam, trafficView);
 								trafficView.refreshPosition();

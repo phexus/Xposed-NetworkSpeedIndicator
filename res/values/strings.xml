@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <string name="app_name">Network Speed Indicator</string>
+
+    <string name="app_name">Network Speed Indicator for H2OS</string>
     <string name="app_description">Displays network speeds on the status bar</string>
     <string name="pref_category_ind_settings">Indicator settings</string>
     <string name="pref_category_ind_appearance">Indicator appearance</string>
@@ -36,38 +36,37 @@
     <string name="pref_enable_logging">Enable logging</string>
     <string name="pref_report_issue">Report an issue</string>
     <string name="note_clear_data">Note: Try \"Clear data\" first.</string> <!-- ensure " is escaped correctly as \" -->
-    <string name="pref_discuss_xda">Discuss on XDA Forums</string>
-    
+    <string name="pref_discuss_oneplus">Discuss on Oneplus BBS</string>
     <string name="unit_format_hidden">Hidden</string>
     <string name="unit_format_fmt_as">Formatted as</string>
     <string name="summary_none">None</string>
     <string name="item_auto">Auto</string>
-    <!-- Note about units:
+    <!--
+         Note about units:
          The placeholder %s will be replaced with the actual numeric value.
          If it is omitted, the provided unit will be appended
          at the end of numeric value (for example: 500 ms)
-      -->
-    
+    -->
+
+
     <!-- Color Picker -->
     <string name="dialog_color_picker">Pick a color</string>
     <string name="press_color_to_apply">Tap on a color to apply</string>
-    
+
     <string-array name="unit_mode_entries">
         <item>Binary bits</item>
         <item>Binary bytes</item>
         <item>Decimal bits</item>
         <item>Decimal bytes</item>
     </string-array>
-    
     <string-array name="unit_format_entries">
         <item>Space prefix</item>
         <item>Factor (K,M)</item>
         <item>Binary mode (i)</item>
         <item>Bytes or bits</item>
-        <item>Per (p,/)</item><!-- can be translated as "Every (p,/)" -->
+        <item>Per (p,/)</item> <!-- can be translated as "Every (p,/)" -->
         <item>Second (s)</item>
     </string-array>
-    
     <string-array name="networktype_entries">
         <item>Mobile</item>
         <item>Wi-Fi</item>
@@ -76,18 +75,14 @@
         <item>Ethernet</item>
         <item>Wi-Fi Direct</item>
     </string-array>
-    
     <string-array name="networkspeed_entries">
         <item>Upload</item>
         <item>Download</item>
     </string-array>
-    
     <string-array name="position_entries">
         <item>Left</item>
         <item>Right</item>
-        <item>Notification bar</item>
     </string-array>
-    
     <string-array name="suffix_entries">
         <item>None</item>
         <item>Solid triangle</item>
@@ -95,15 +90,13 @@
         <item>Small solid triangle</item>
         <item>Small hollow triangle</item>
     </string-array>
-    
     <string-array name="display_entries">
         <item>Two lines</item>
         <item>One line</item>
     </string-array>
-    
     <string-array name="font_style_entries">
         <item>Bold</item>
         <item>Italic</item>
     </string-array>
-    
+
 </resources>

@@ -1,4 +1,4 @@
-package tw.fatminmin.xposed.networkspeedindicator.logger;
+package me.seasonyuu.xposed.networkspeedindicator.h2os.logger;
 
 import java.io.File;
 import java.io.FileWriter;
