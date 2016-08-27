@@ -10,12 +10,12 @@ import android.widget.RelativeLayout;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated.LayoutInflatedParam;
 
 /**
- * 实现氢OS 1.2以上的状态栏网速位置
+ * 实现氢OS 1.4以上的状态栏网速位置
  * 
  * @author seasonyuu
  *
  */
-public class PositionCallback1p2 implements PositionCallback {
+public class PositionCallback1p4 implements PositionCallback {
 
 	private static final String PKG_NAME_SYSTEM_UI = "com.android.systemui";
 	private LinearLayout mSystemIconArea;
@@ -44,7 +44,7 @@ public class PositionCallback1p2 implements PositionCallback {
 		container.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 		container.setVisibility(View.GONE);
 
-		// mStatusBarContents.addView(container, 0);
+//		mStatusBarContents.addView(container, 0);
 		LinearLayout iconAreaInner = (LinearLayout) root
 				.findViewById(liparam.res.getIdentifier("notification_icon_area_inner", "id", PKG_NAME_SYSTEM_UI));
 		iconAreaInner.addView(container);

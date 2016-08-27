@@ -55,7 +55,7 @@ public final class Common {
 	public static final int DEF_UNIT_MODE = 3; //Decimal bytes
 	public static final int DEF_FORCE_UNIT = 0;
 	public static final float DEF_FONT_SIZE = 8;
-	public static final int DEF_POSITION = 0;
+	public static final int DEF_POSITION = 1;
 	public static final int DEF_SUFFIX = 1;
 	public static final int DEF_DISPLAY = 0;
 	public static final boolean DEF_SWAP_SPEEDS = false;
@@ -63,7 +63,7 @@ public final class Common {
 	public static final boolean DEF_FONT_COLOR = false;
 	public static final int DEF_COLOR = Color.LTGRAY;
 	public static final HashSet<String> DEF_FONT_STYLE = new HashSet<String>();
-	public static final boolean DEF_ENABLE_LOG = true;
+	public static final boolean DEF_ENABLE_LOG = false;
 	
 	public static final String BIG_UP_TRIANGLE = " \u25B2 ";
 	public static final String BIG_DOWN_TRIANGLE = " \u25BC ";

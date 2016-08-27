@@ -30,13 +30,13 @@ import me.seasonyuu.xposed.networkspeedindicator.h2os.logger.Log;
 @SuppressLint("HandlerLeak")
 public final class TrafficView extends TextView {
 
-    public PositionCallback mPositionCallback = null;
-    public View clock = null;
-    
+	public PositionCallback mPositionCallback = null;
+	public View clock = null;
+
 	private static final String TAG = TrafficView.class.getSimpleName();
-	private static final DecimalFormat formatWithDecimal    = new DecimalFormat(" ##0.0");
+	private static final DecimalFormat formatWithDecimal = new DecimalFormat(" ##0.0");
 	private static final DecimalFormat formatWithoutDecimal = new DecimalFormat(" ##0");
-	
+
 	private boolean mAttached;
 
 	private long uploadSpeed;
@@ -73,40 +73,39 @@ public final class TrafficView extends TextView {
 		updateViewVisibility();
 		mAttached = false;
 	}
-	
+
 	public final void refreshPosition() {
-	    switch(prefPosition) {
-        case 0:
-            mPositionCallback.setLeft();
-            break;
-        case 1:
-            mPositionCallback.setRight();
-            break;
-        }
+		switch (prefPosition) {
+		case 0:
+			mPositionCallback.setLeft();
+			break;
+		case 1:
+			mPositionCallback.setRight();
+			break;
+		}
 	}
-	
+
 	@SuppressLint("NewApi")
 	private final void refreshColor() {
 		if (prefFontColor) {
 			setTextColor(prefColor);
-		}
-		else {
-			if(clock != null) {
+		} else {
+			if (clock != null) {
 				if (clock instanceof TextView) {
 					setTextColor(((TextView) clock).getCurrentTextColor());
 				} else {
-					//probably LinearLayout in VN ROM v14.1 (need to search child elements to find correct text color)
+					// probably LinearLayout in VN ROM v14.1 (need to search
+					// child elements to find correct text color)
 					Log.w(TAG, "clock is not a TextView, it is ", clock.getClass().getSimpleName());
 					setTextColor(Common.ANDROID_SKY_BLUE);
 				}
-			}
-			else {
+			} else {
 				Log.i(TAG, "Gingerbread");
 				setTextColor(Common.ANDROID_SKY_BLUE);
 			}
 		}
 	}
-	
+
 	private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
 
 		@SuppressWarnings("unchecked")
@@ -114,16 +113,15 @@ public final class TrafficView extends TextView {
 		public final void onReceive(final Context context, final Intent intent) {
 			try {
 				String action = intent.getAction();
-				
+
 				if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
 					Log.i(TAG, "Connectivity changed");
 					updateConnectionInfo();
 					updateViewVisibility();
-				}
-				else if (action.equals(Common.ACTION_SETTINGS_CHANGED)) {
+				} else if (action.equals(Common.ACTION_SETTINGS_CHANGED)) {
 					Log.i(TAG, "Settings changed");
 					Log.d(TAG, intent.getExtras().keySet().toArray());
-					
+
 					if (intent.hasExtra(Common.KEY_FORCE_UNIT)) {
 						prefForceUnit = intent.getIntExtra(Common.KEY_FORCE_UNIT, Common.DEF_FORCE_UNIT);
 					}
@@ -131,39 +129,39 @@ public final class TrafficView extends TextView {
 						prefUnitMode = intent.getIntExtra(Common.KEY_UNIT_MODE, Common.DEF_UNIT_MODE);
 					}
 					if (intent.hasExtra(Common.KEY_UNIT_FORMAT)) {
-					    prefUnitFormat = (Set<String>) intent.getSerializableExtra(Common.KEY_UNIT_FORMAT);
+						prefUnitFormat = (Set<String>) intent.getSerializableExtra(Common.KEY_UNIT_FORMAT);
 					}
 					if (intent.hasExtra(Common.KEY_HIDE_BELOW)) {
 						prefHideBelow = intent.getIntExtra(Common.KEY_HIDE_BELOW, Common.DEF_HIDE_BELOW);
 					}
 					if (intent.hasExtra(Common.KEY_SHOW_SUFFIX)) {
-					    prefShowSuffix = intent.getBooleanExtra(Common.KEY_SHOW_SUFFIX, Common.DEF_SHOW_SUFFIX);
+						prefShowSuffix = intent.getBooleanExtra(Common.KEY_SHOW_SUFFIX, Common.DEF_SHOW_SUFFIX);
 					}
 					if (intent.hasExtra(Common.KEY_FONT_SIZE)) {
-					    prefFontSize = intent.getFloatExtra(Common.KEY_FONT_SIZE, Common.DEF_FONT_SIZE);
+						prefFontSize = intent.getFloatExtra(Common.KEY_FONT_SIZE, Common.DEF_FONT_SIZE);
 					}
 					if (intent.hasExtra(Common.KEY_POSITION)) {
-					    prefPosition = intent.getIntExtra(Common.KEY_POSITION, Common.DEF_POSITION);
-					    refreshPosition();
+						prefPosition = intent.getIntExtra(Common.KEY_POSITION, Common.DEF_POSITION);
+						refreshPosition();
 					}
 					if (intent.hasExtra(Common.KEY_SUFFIX)) {
-					    prefSuffix = intent.getIntExtra(Common.KEY_SUFFIX, Common.DEF_SUFFIX);
+						prefSuffix = intent.getIntExtra(Common.KEY_SUFFIX, Common.DEF_SUFFIX);
 					}
 					if (intent.hasExtra(Common.KEY_NETWORK_TYPE)) {
-					    prefNetworkType = (Set<String>) intent.getSerializableExtra(Common.KEY_NETWORK_TYPE);
+						prefNetworkType = (Set<String>) intent.getSerializableExtra(Common.KEY_NETWORK_TYPE);
 					}
 					if (intent.hasExtra(Common.KEY_NETWORK_SPEED)) {
-					    prefNetworkSpeed = (Set<String>) intent.getSerializableExtra(Common.KEY_NETWORK_SPEED);
+						prefNetworkSpeed = (Set<String>) intent.getSerializableExtra(Common.KEY_NETWORK_SPEED);
 					}
 					if (intent.hasExtra(Common.KEY_DISPLAY)) {
-				        prefDisplay = intent.getIntExtra(Common.KEY_DISPLAY, Common.DEF_DISPLAY);
-				    }
+						prefDisplay = intent.getIntExtra(Common.KEY_DISPLAY, Common.DEF_DISPLAY);
+					}
 					if (intent.hasExtra(Common.KEY_SWAP_SPEEDS)) {
 						prefSwapSpeeds = intent.getBooleanExtra(Common.KEY_SWAP_SPEEDS, Common.DEF_SWAP_SPEEDS);
 					}
 					if (intent.hasExtra(Common.KEY_UPDATE_INTERVAL)) {
-				        prefUpdateInterval = intent.getIntExtra(Common.KEY_UPDATE_INTERVAL, Common.DEF_UPDATE_INTERVAL);
-				    }
+						prefUpdateInterval = intent.getIntExtra(Common.KEY_UPDATE_INTERVAL, Common.DEF_UPDATE_INTERVAL);
+					}
 					if (intent.hasExtra(Common.KEY_FONT_COLOR)) {
 						prefFontColor = intent.getBooleanExtra(Common.KEY_FONT_COLOR, Common.DEF_FONT_COLOR);
 					}
@@ -176,7 +174,7 @@ public final class TrafficView extends TextView {
 					if (intent.hasExtra(Common.KEY_ENABLE_LOG)) {
 						Log.enableLogging = intent.getBooleanExtra(Common.KEY_ENABLE_LOG, Common.DEF_ENABLE_LOG);
 					}
-					
+
 					updateViewVisibility();
 				}
 			} catch (Exception e) {
@@ -187,7 +185,7 @@ public final class TrafficView extends TextView {
 	};
 
 	@SuppressLint("HandlerLeak")
-    private final Handler mTrafficHandler = new Handler() {
+	private final Handler mTrafficHandler = new Handler() {
 		@Override
 		public final void handleMessage(final Message msg) {
 			try {
@@ -195,9 +193,9 @@ public final class TrafficView extends TextView {
 				long lastUpdateTimeNew = SystemClock.elapsedRealtime();
 				long totalTxBytesNew = getTotalBytes(TRANSMIT);
 				long totalRxBytesNew = getTotalBytes(RECEIVE);
-				
+
 				long elapsedTime = lastUpdateTimeNew - lastUpdateTime;
-				
+
 				if (elapsedTime == 0) {
 					Log.w(TAG, "Elapsed time is zero");
 					uploadSpeed = 0;
@@ -207,35 +205,31 @@ public final class TrafficView extends TextView {
 					downloadSpeed = ((totalRxBytesNew - totalRxBytes) * 1000) / elapsedTime;
 				}
 
-				if (loggedZero==false || uploadSpeed != 0 || downloadSpeed != 0) {
-					Log.d(TAG,
-						totalTxBytes, ",", totalTxBytesNew, ";",
-						totalRxBytes, ",", totalRxBytesNew, ";",
-						lastUpdateTime, ",", lastUpdateTimeNew, ";",
-						uploadSpeed, ",", downloadSpeed
-						);
+				if (loggedZero == false || uploadSpeed != 0 || downloadSpeed != 0) {
+					Log.d(TAG, totalTxBytes, ",", totalTxBytesNew, ";", totalRxBytes, ",", totalRxBytesNew, ";",
+							lastUpdateTime, ",", lastUpdateTimeNew, ";", uploadSpeed, ",", downloadSpeed);
 					loggedZero = (uploadSpeed == 0 && downloadSpeed == 0);
 				}
-				
+
 				totalTxBytes = totalTxBytesNew;
 				totalRxBytes = totalRxBytesNew;
 				lastUpdateTime = lastUpdateTimeNew;
-				
+
 				SpannableString spanString = new SpannableString(createText());
-				
-				if(prefFontStyle.contains("B")) {
+
+				if (prefFontStyle.contains("B")) {
 					spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
 				}
-				if(prefFontStyle.contains("I")) {
+				if (prefFontStyle.contains("I")) {
 					spanString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spanString.length(), 0);
 				}
-				
+
 				setText(spanString);
 				setTextSize(TypedValue.COMPLEX_UNIT_SP, prefFontSize);
 				refreshColor();
-				
+
 				update();
-				
+
 				super.handleMessage(msg);
 			} catch (Exception e) {
 				Log.e(TAG, "handleMessage failed: ", e);
@@ -278,18 +272,17 @@ public final class TrafficView extends TextView {
 	}
 
 	private final void updateConnectionInfo() {
-		ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(
-				Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connectivityManager = (ConnectivityManager) getContext()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 		Log.d(TAG, networkInfo);
-		
+
 		if (networkInfo != null) {
 			networkState = networkInfo.isAvailable();
 			networkType = String.valueOf(networkInfo.getType());
 			Log.i(TAG, "Network type: ", networkType);
-		}
-		else {
+		} else {
 			networkState = false;
 		}
 		Log.d(TAG, "Network State: ", networkState);
@@ -297,52 +290,55 @@ public final class TrafficView extends TextView {
 
 	private final void updateTraffic() {
 		if (justLaunched) {
-			//get the values for the first time
+			// get the values for the first time
 			lastUpdateTime = SystemClock.elapsedRealtime();
 			totalTxBytes = getTotalBytes(TRANSMIT);
 			totalRxBytes = getTotalBytes(RECEIVE);
-			
-			//don't get the values again
+
+			// don't get the values again
 			justLaunched = false;
 		}
-		
+
 		mTrafficHandler.sendEmptyMessage(0);
 	}
-	
+
 	private static final int TRANSMIT = 0;
 	private static final int RECEIVE = 1;
-	
+
 	private static final long getTotalBytes(final int traffic_direction) {
 		final boolean tx = (traffic_direction == TRANSMIT);
-		long totalBytes = -9; // not -1 because it conflicts with TrafficStats.UNSUPPORTED
+		long totalBytes = -9; // not -1 because it conflicts with
+								// TrafficStats.UNSUPPORTED
 		BufferedReader br = null;
 		BufferedReader br2 = null;
-		
+
 		try {
 			br = new BufferedReader(new FileReader("/sys/class/net/lo/statistics/" + (tx ? "tx" : "rx") + "_bytes"));
-			
-			// reading both together to reduce delay in between as much as possible
+
+			// reading both together to reduce delay in between as much as
+			// possible
 			totalBytes = tx ? TrafficStats.getTotalTxBytes() : TrafficStats.getTotalRxBytes();
 			String line = br.readLine();
-			
+
 			long loBytes = Long.parseLong(line);
 
 			long tun0Bytes = 0;
 
 			File tun0 = new File("/sys/class/net/tun0");
 			if (tun0.exists()) {
-				br2 = new BufferedReader(new FileReader("/sys/class/net/tun0/statistics/" + (tx ? "tx" : "rx") + "_bytes"));
+				br2 = new BufferedReader(
+						new FileReader("/sys/class/net/tun0/statistics/" + (tx ? "tx" : "rx") + "_bytes"));
 				String line2 = br2.readLine();
 				tun0Bytes = Long.parseLong(line2);
 			}
-			
+
 			Log.d(TAG, traffic_direction, " total: ", totalBytes, ", lo: ", loBytes, "tun0: ", tun0Bytes);
-			
+
 			totalBytes = totalBytes - loBytes - tun0Bytes;
-			
+
 		} catch (Exception e) {
 			Log.i(TAG, "Loopback exclusion failed: ", e);
-			
+
 		} finally {
 			if (br != null) {
 				try {
@@ -359,75 +355,72 @@ public final class TrafficView extends TextView {
 				}
 			}
 		}
-		
+
 		if (totalBytes == -9) {
 			totalBytes = tx ? TrafficStats.getTotalTxBytes() : TrafficStats.getTotalRxBytes();
 		}
-		
+
 		return totalBytes;
 	}
 
 	private final String createText() {
 		String uploadSuffix, downloadSuffix;
 		String strUploadValue, strDownloadValue;
-		
-		switch(prefSuffix) {
+
+		switch (prefSuffix) {
 		default:
 		case 0:
-		    uploadSuffix = downloadSuffix = " ";
-		    break;
+			uploadSuffix = downloadSuffix = " ";
+			break;
 		case 1:
 			uploadSuffix = Common.BIG_UP_TRIANGLE;
 			downloadSuffix = Common.BIG_DOWN_TRIANGLE;
-		    break;
+			break;
 		case 2:
 			uploadSuffix = Common.BIG_UP_HOLLOW_TRIANGLE;
 			downloadSuffix = Common.BIG_DOWN_HOLLOW_TRIANGLE;
-		    break;
+			break;
 		case 3:
 			uploadSuffix = Common.SMALL_UP_TRIANGLE;
 			downloadSuffix = Common.SMALL_DOWN_TRIANGLE;
-		    break;
+			break;
 		case 4:
 			uploadSuffix = Common.SMALL_UP_HOLLOW_TRIANGLE;
 			downloadSuffix = Common.SMALL_DOWN_HOLLOW_TRIANGLE;
-		    break;
+			break;
 		}
-		
+
 		boolean showUploadSpeed = prefNetworkSpeed.contains("U");
 		boolean showDownloadSpeed = prefNetworkSpeed.contains("D");
 		boolean showInExactPosition = (showUploadSpeed && showDownloadSpeed);
-		
-		if(showUploadSpeed) {
-		    strUploadValue = formatSpeed(uploadSpeed, uploadSuffix);
-		}
-		else {
+
+		if (showUploadSpeed) {
+			strUploadValue = formatSpeed(uploadSpeed, uploadSuffix);
+		} else {
 			strUploadValue = "";
 		}
-		
-		if(showDownloadSpeed) {
-		    strDownloadValue = formatSpeed(downloadSpeed, downloadSuffix);
-		}
-		else {
+
+		if (showDownloadSpeed) {
+			strDownloadValue = formatSpeed(downloadSpeed, downloadSuffix);
+		} else {
 			strDownloadValue = "";
 		}
-		
+
 		String delimiter = "";
-		if(prefDisplay == 0) {
-		    delimiter = "\n";
+		if (prefDisplay == 0) {
+			delimiter = "\n";
+		} else {
+			delimiter = " ";
+			showInExactPosition = false; // irrelevant in one-line mode
 		}
-		else {
-		    delimiter = " ";
-		    showInExactPosition = false; //irrelevant in one-line mode
-		}
-		
+
 		String ret = "";
 		boolean showBothSpeeds = strUploadValue.length() > 0 && strDownloadValue.length() > 0;
-		
-		if(showBothSpeeds==false && showInExactPosition==false) {
-		    delimiter = "";
+
+		if (showBothSpeeds == false && showInExactPosition == false) {
+			delimiter = "";
 		}
-		
+
 		if (prefSwapSpeeds) {
 			ret = strDownloadValue + delimiter + strUploadValue;
 		} else {
@@ -435,47 +428,47 @@ public final class TrafficView extends TextView {
 		}
 		return ret;
 	}
-	
+
 	private final String formatSpeed(final long transferSpeedBytes, final String transferSuffix) {
 		float unitFactor;
 		long transferSpeed = transferSpeedBytes;
-		
+
 		switch (prefUnitMode) {
 		case 0: // Binary bits
 			transferSpeed *= 8;
-			//no break
+			// no break
 		case 1: // Binary bytes
 			unitFactor = 1024f;
 			break;
 		case 2: // Decimal bits
 			transferSpeed *= 8;
-			//no break
+			// no break
 		default:
 		case 3: // Decimal bytes
 			unitFactor = 1000f;
 			break;
 		}
-		
+
 		int tempPrefUnit = prefForceUnit;
 		float megaTransferSpeed = ((float) transferSpeed) / (unitFactor * unitFactor);
 		float kiloTransferSpeed = ((float) transferSpeed) / unitFactor;
-		
+
 		float transferValue;
 		DecimalFormat transferDecimalFormat;
-		
+
 		if (prefForceUnit == 0) { // Auto mode
-			
+
 			if (megaTransferSpeed >= 1) {
 				tempPrefUnit = 3;
-				
+
 			} else if (kiloTransferSpeed >= 1) {
 				tempPrefUnit = 2;
-				
+
 			} else {
 				tempPrefUnit = 1;
 			}
 		}
-		
+
 		switch (tempPrefUnit) {
 		case 3:
 			transferValue = megaTransferSpeed;
@@ -491,24 +484,29 @@ public final class TrafficView extends TextView {
 			transferDecimalFormat = formatWithoutDecimal;
 			break;
 		}
-		
+
 		String strTransferValue;
-		
+
 		if (transferSpeedBytes < prefHideBelow) {
-		    strTransferValue = "";
+			strTransferValue = "";
+		} else {
+			strTransferValue = transferDecimalFormat.format(transferValue);
 		}
-		else {
-		    strTransferValue = transferDecimalFormat.format(transferValue);
+
+		if (strTransferValue.length() > 0) {
+			strTransferValue += Common.formatUnit(prefUnitMode, tempPrefUnit, prefUnitFormat);
+			if (prefPosition == 0)
+				strTransferValue = transferSuffix + strTransferValue;
+			else
+				strTransferValue += transferSuffix;
+
+		} else if (prefShowSuffix) {
+			if (prefPosition == 0)
+				strTransferValue = transferSuffix + strTransferValue;
+			else
+				strTransferValue += transferSuffix;
 		}
-		
-		if(strTransferValue.length() > 0) {
-		    strTransferValue += Common.formatUnit(prefUnitMode, tempPrefUnit, prefUnitFormat);
-		    strTransferValue += transferSuffix;
-		}
-		else if (prefShowSuffix) {
-			strTransferValue += transferSuffix;
-		}
-		
+
 		return strTransferValue;
 	}
 
@@ -528,7 +526,7 @@ public final class TrafficView extends TextView {
 			}
 		}
 	};
-	
+
 	private final void updateViewVisibility() {
 		if (networkState && prefNetworkType.contains(networkType)) {
 			if (mAttached) {
@@ -544,7 +542,7 @@ public final class TrafficView extends TextView {
 	private final void loadPreferences() {
 		try {
 			XSharedPreferences mPref = new XSharedPreferences(Common.PKG_NAME);
-			
+
 			// fetch all preferences first
 			int localPrefForceUnit = Common.getPrefInt(mPref, Common.KEY_FORCE_UNIT, Common.DEF_FORCE_UNIT);
 			int localPrefUnitMode = Common.getPrefInt(mPref, Common.KEY_UNIT_MODE, Common.DEF_UNIT_MODE);
@@ -558,12 +556,13 @@ public final class TrafficView extends TextView {
 			Set<String> localPrefNetworkSpeed = mPref.getStringSet(Common.KEY_NETWORK_SPEED, Common.DEF_NETWORK_SPEED);
 			int localPrefDisplay = Common.getPrefInt(mPref, Common.KEY_DISPLAY, Common.DEF_DISPLAY);
 			boolean localPrefSwapSpeeds = mPref.getBoolean(Common.KEY_SWAP_SPEEDS, Common.DEF_SWAP_SPEEDS);
-			int localPrefUpdateInterval = Common.getPrefInt(mPref, Common.KEY_UPDATE_INTERVAL, Common.DEF_UPDATE_INTERVAL);
+			int localPrefUpdateInterval = Common.getPrefInt(mPref, Common.KEY_UPDATE_INTERVAL,
+					Common.DEF_UPDATE_INTERVAL);
 			boolean localPrefFontColor = mPref.getBoolean(Common.KEY_FONT_COLOR, Common.DEF_FONT_COLOR);
 			int localPrefColor = mPref.getInt(Common.KEY_COLOR, Common.DEF_COLOR);
 			Set<String> localPrefFontStyle = mPref.getStringSet(Common.KEY_FONT_STYLE, Common.DEF_FONT_STYLE);
 			boolean localEnableLogging = mPref.getBoolean(Common.KEY_ENABLE_LOG, Common.DEF_ENABLE_LOG);
-			
+
 			// only when all are fetched, set them to fields
 			prefForceUnit = localPrefForceUnit;
 			prefUnitMode = localPrefUnitMode;
@@ -582,7 +581,7 @@ public final class TrafficView extends TextView {
 			prefColor = localPrefColor;
 			prefFontStyle = localPrefFontStyle;
 			Log.enableLogging = localEnableLogging;
-			
+
 		} catch (Exception e) {
 			Log.e(TAG, "loadPreferences failure ignored, using defaults. Exception: ", e);
 		}
