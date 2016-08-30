@@ -22,7 +22,7 @@
     <string name="pref_networkspeed">传输模式</string>
     <string name="pref_font_size">字体大小</string>
     <string name="hint_font_size">像素</string>
-    <string name="unit_font_size">%s px</string> <!-- see note -->
+    <string name="unit_font_size">%s sp</string> <!-- see note -->
     <string name="pref_position">位置</string>
     <string name="pref_suffix">图标</string>
     <string name="pref_display">行数</string>

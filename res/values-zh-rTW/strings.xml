@@ -22,7 +22,7 @@
     <string name="pref_networkspeed">網路速度</string>
     <string name="pref_font_size">字體大小</string>
     <string name="hint_font_size">scaled pixels</string>
-    <string name="unit_font_size">%s px</string> <!-- see note -->
+    <string name="unit_font_size">%s sp</string> <!-- see note -->
     <string name="pref_position">位置</string>
     <string name="pref_suffix">後綴</string>
     <string name="pref_display">顯示</string>

@@ -22,7 +22,7 @@
     <string name="pref_networkspeed">Network speeds</string>
     <string name="pref_font_size">Font size</string>
     <string name="hint_font_size">scaled pixels</string>
-    <string name="unit_font_size">%s px</string> <!-- see note -->
+    <string name="unit_font_size">%s sp</string> <!-- see note -->
     <string name="pref_position">Position</string>
     <string name="pref_suffix">Suffix</string>
     <string name="pref_display">Display</string>
