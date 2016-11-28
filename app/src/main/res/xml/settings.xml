@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="settings" >
+
+    <PreferenceCategory android:title="@string/pref_category_ind_settings" >
+        <EditTextPreference
+            android:hint="@string/hint_update_interval"
+            android:inputType="number"
+            android:key="update_interval"
+            android:title="@string/pref_update_interval" />
+
+        <com.h6ah4i.android.compat.preference.MultiSelectListPreferenceCompat
+            android:defaultValue="@array/networktype_defaults"
+            android:entries="@array/networktype_entries"
+            android:entryValues="@array/networktype_values"
+            android:key="network_type"
+            android:title="@string/pref_networktype" />
+        <com.h6ah4i.android.compat.preference.MultiSelectListPreferenceCompat
+            android:defaultValue="@array/networkspeed_values"
+            android:entries="@array/networkspeed_entries"
+            android:entryValues="@array/networkspeed_values"
+            android:key="network_speed"
+            android:title="@string/pref_networkspeed" />
+
+        <EditTextPreference
+            android:dialogMessage="@string/dmsg_hide_below"
+            android:hint="@string/hint_hide_below"
+            android:inputType="number"
+            android:key="hide_below"
+            android:title="@string/pref_hide_below" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_ind_appearance" >
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/position_entries"
+            android:entryValues="@array/position_values"
+            android:key="position"
+            android:title="@string/pref_position" />
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/display_entries"
+            android:entryValues="@array/display_values"
+            android:key="display"
+            android:title="@string/pref_display" />
+
+        <CheckBoxPreference
+            android:defaultValue="0"
+            android:key="swap_speeds"
+            android:title="@string/pref_swap_speeds" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/suffix_entries"
+            android:entryValues="@array/suffix_values"
+            android:key="suffix"
+            android:title="@string/pref_suffix" />
+
+        <CheckBoxPreference
+            android:defaultValue="0"
+            android:key="show_suffix"
+            android:title="@string/pref_show_suffix" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_unit_settings" >
+        <ListPreference
+            android:defaultValue="3"
+            android:entries="@array/unit_mode_entries"
+            android:entryValues="@array/unit_mode_values"
+            android:key="unit_mode"
+            android:title="@string/pref_unit_mode" />
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/unit_entries_decimal_bytes"
+            android:entryValues="@array/unit_values"
+            android:key="force_unit"
+            android:title="@string/pref_unit" />
+
+        <com.h6ah4i.android.compat.preference.MultiSelectListPreferenceCompat
+            android:defaultValue="@array/unit_format_defaults"
+            android:entries="@array/unit_format_entries"
+            android:entryValues="@array/unit_format_values"
+            android:key="unit_format"
+            android:title="@string/pref_unit_format" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_text_appearance" >
+        <EditTextPreference
+            android:hint="@string/hint_font_size"
+            android:inputType="numberDecimal"
+            android:key="font_size"
+            android:title="@string/pref_font_size" />
+
+        <com.h6ah4i.android.compat.preference.MultiSelectListPreferenceCompat
+            android:defaultValue="@array/empty_array"
+            android:entries="@array/font_style_entries"
+            android:entryValues="@array/font_style_values"
+            android:key="font_style"
+            android:title="@string/pref_font_style" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="font_color"
+            android:title="@string/pref_font_color" />
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            alphaSlider="true"
+            hexValue="true"
+            android:defaultValue="@android:color/white"
+            android:dependency="font_color"
+            android:key="color"
+            android:title="@string/dialog_color_picker" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_help" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_logging_beta"
+            android:title="@string/pref_enable_logging" />
+
+        <PreferenceScreen
+            android:summary="@string/note_clear_data"
+            android:title="@string/pref_report_issue" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/url_report_issue" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:summary="@string/url_discuss_oneplus"
+            android:title="@string/pref_discuss_oneplus" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/url_discuss_oneplus" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>
