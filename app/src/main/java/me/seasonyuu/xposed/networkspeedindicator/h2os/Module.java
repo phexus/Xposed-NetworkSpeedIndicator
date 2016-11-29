@@ -1,16 +1,5 @@
 package me.seasonyuu.xposed.networkspeedindicator.h2os;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import android.annotation.SuppressLint;
 import android.content.res.XResources;
 import android.os.Build;
@@ -18,6 +7,16 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -30,9 +29,9 @@ import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.logger.Log;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback1p2;
-import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallbackOp2;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback1p4;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback2p5;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallbackOp2;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.TrafficView;
 
 public final class Module implements IXposedHookLoadPackage, IXposedHookInitPackageResources {
@@ -186,6 +185,7 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 						Log.i(TAG, "find Clock succeed");
 
 						Process p = null;
+						String romFullVersion = "";
 						String romVersion = "";
 						try {
 							p = new ProcessBuilder("/system/bin/getprop", "ro.rom.version").redirectErrorStream(true)
@@ -193,17 +193,18 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 							BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 							String line = "";
 							while ((line = br.readLine()) != null) {
-								romVersion = line;
+								romFullVersion = line;
 							}
 							Log.e(TAG, line);
-							romVersion = romVersion.split("V", 2)[1];
+							if (romFullVersion.split("V", 2).length > 1)
+								romVersion = romFullVersion.split("V", 2)[1];
 							p.destroy();
 						} catch (IOException e) {
 							e.printStackTrace();
 							Log.e(TAG, e.getStackTrace().toString());
 						}
-						if (romVersion != null) {
-							if (romVersion.compareTo("2.5.0") >= 0 || romVersion.contains("OP3_H2_Open")) {
+						if (romVersion.length() > 0) {
+							if (romVersion.compareTo("2.5.0") >= 0) {
 								Log.i(TAG, "PositionCallback: H2OS 2.5");
 								trafficView.mPositionCallback = new PositionCallback2p5();
 							} else if (romVersion.compareTo("1.4.0") >= 0) {
@@ -217,6 +218,9 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 								else
 									trafficView.mPositionCallback = new PositionCallback1p2();
 							}
+						} else if (romFullVersion.contains("OP3_H2_Open")) {
+							Log.i(TAG, "PositionCallback: H2OS 2.5");
+							trafficView.mPositionCallback = new PositionCallback2p5();
 						} else {
 							Log.e(TAG, "ROM VERSION is null");
 						}

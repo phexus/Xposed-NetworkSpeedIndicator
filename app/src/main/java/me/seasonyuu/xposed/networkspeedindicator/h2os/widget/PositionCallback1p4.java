@@ -7,7 +7,9 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import de.robv.android.xposed.callbacks.XC_LayoutInflated.LayoutInflatedParam;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.R;
 
 /**
  * 实现氢OS 1.4以上的状态栏网速位置
@@ -23,7 +25,7 @@ public class PositionCallback1p4 implements PositionCallback {
 	private LinearLayout container;
 	private View view;
 
-	private static final int TRAFFIC_VIEW_CONTAINER_ID = me.seasonyuu.xposed.networkspeedindicator.h2os.R.id.traffic_view_container;
+	private static final int TRAFFIC_VIEW_CONTAINER_ID = R.id.traffic_view_container;
 
 	@Override
 	public void setup(final LayoutInflatedParam liparam, final View v) {
