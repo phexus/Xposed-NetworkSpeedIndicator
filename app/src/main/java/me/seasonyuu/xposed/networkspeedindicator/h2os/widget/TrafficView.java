@@ -1,11 +1,5 @@
 package me.seasonyuu.xposed.networkspeedindicator.h2os.widget;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-import java.text.DecimalFormat;
-import java.util.Set;
-
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,6 +17,13 @@ import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.text.DecimalFormat;
+import java.util.Set;
+
 import de.robv.android.xposed.XSharedPreferences;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.Common;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.logger.Log;

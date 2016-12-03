@@ -40,7 +40,7 @@ public final class SettingsActivity extends PreferenceActivity implements OnShar
 		try {
 			super.onCreate(savedInstanceState);
 			
-			getPreferenceManager().setSharedPreferencesMode(Context.MODE_PRIVATE);
+			getPreferenceManager().setSharedPreferencesMode(Context.MODE_WORLD_READABLE);
 			mPrefs = getPreferenceManager().getSharedPreferences();
 			
 			addPreferencesFromResource(R.xml.settings);
