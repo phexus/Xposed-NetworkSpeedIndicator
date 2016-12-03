@@ -11,7 +11,7 @@ import me.seasonyuu.xposed.networkspeedindicator.h2os.logger.Log;
 public final class Common {
 
 	private static final String TAG = Common.class.getSimpleName();
-	public static final String PKG_NAME = "me.seasonyuu.networkspeedindicator.h2os";
+	public static final String PKG_NAME = "me.seasonyuu.xposed.networkspeedindicator.h2os";
 	public static final String ACTION_SETTINGS_CHANGED = PKG_NAME + ".changed";
 
 	public static final String KEY_HIDE_BELOW = "hide_below";
