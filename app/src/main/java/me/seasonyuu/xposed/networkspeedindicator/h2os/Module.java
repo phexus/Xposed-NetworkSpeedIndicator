@@ -28,10 +28,10 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.logger.Log;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.CommonPositionCallback;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback1p2;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback1p4;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback2p5;
-import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallbackOp2;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.TrafficView;
 
 public final class Module implements IXposedHookLoadPackage, IXposedHookInitPackageResources {
@@ -212,17 +212,15 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 								trafficView.mPositionCallback = new PositionCallback1p4();
 							} else if (romVersion.compareTo("1.2.0") >= 0) {
 								Log.i(TAG, "PositionCallback: H2OS 1.2");
-								String product = Build.PRODUCT;
-								if (product.equals("OnePlus2"))
-									trafficView.mPositionCallback = new PositionCallbackOp2();
-								else
-									trafficView.mPositionCallback = new PositionCallback1p2();
+								trafficView.mPositionCallback = new PositionCallback1p2();
 							}
 						} else if (romFullVersion.contains("OP3_H2_Open")) {
 							Log.i(TAG, "PositionCallback: H2OS 2.5");
 							trafficView.mPositionCallback = new PositionCallback2p5();
 						} else {
 							Log.e(TAG, "ROM VERSION is null");
+							// May not work
+							trafficView.mPositionCallback = new CommonPositionCallback();
 						}
 
 						trafficView.mPositionCallback.setup(liparam, trafficView);
