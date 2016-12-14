@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Network Speed Indicator for H2OS</string>
+    <string name="app_name">Network Speed Indicator for Oneplus</string>
     <string name="app_description">Displays network speeds on the status bar</string>
     <string name="pref_category_ind_settings">Indicator settings</string>
     <string name="pref_category_ind_appearance">Indicator appearance</string>

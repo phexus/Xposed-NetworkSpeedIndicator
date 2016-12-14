@@ -2,12 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
 	signingConfigs {
-		release {
-			keyAlias 'seasonyuu'
-			keyPassword 'yuxiran1995'
-			storeFile file('C:/Users/yuxir/Documents/seasonyuu-android.jks')
-			storePassword 'yuxiran1995'
-		}
 	}
 	compileSdkVersion 21
 	buildToolsVersion "22.0.1"
@@ -15,8 +9,8 @@ android {
 		applicationId 'me.seasonyuu.xposed.networkspeedindicator.h2os'
 		minSdkVersion 21
 		targetSdkVersion 21
-		versionCode 4
-		versionName "2.1"
+		versionCode 5
+		versionName "2.2"
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
 	buildTypes {
