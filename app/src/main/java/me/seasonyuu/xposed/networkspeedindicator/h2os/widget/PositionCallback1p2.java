@@ -30,7 +30,6 @@ public class PositionCallback1p2 implements PositionCallback {
 	@Override
 	public void setup(final LayoutInflatedParam liparam, final View v) {
 		view = v;
-		view.setMinimumWidth(180);
 
 		FrameLayout root = (FrameLayout) liparam.view;
 

@@ -26,7 +26,6 @@ public class PositionCallbackMiui8 implements PositionCallback {
 	@Override
 	public void setup(final XC_LayoutInflated.LayoutInflatedParam liparam, final View v) {
 		view = v;
-		v.setMinimumWidth(140);
 
 		FrameLayout root = (FrameLayout) liparam.view;
 

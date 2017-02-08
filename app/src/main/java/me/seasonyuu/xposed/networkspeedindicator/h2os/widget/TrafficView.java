@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.text.SpannableString;
+import android.text.TextPaint;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.View;
@@ -83,6 +86,32 @@ public final class TrafficView extends TextView {
 			case 1:
 				mPositionCallback.setRight();
 				break;
+		}
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		String text = getText().toString();
+		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+		if (text.split("\n").length > 1) {
+			String lines[] = text.split("\n");
+			String longText = lines[0].length() > lines[1].length() ? lines[0] : lines[1];
+			Paint paint = new Paint();
+			paint.setTextSize(getTextSize());
+			Rect bounds = new Rect();
+			paint.getTextBounds(longText, 0, longText.length(), bounds);
+			int height = 0;
+			if (heightMode == MeasureSpec.EXACTLY) {
+				height = heightSize;
+			} else {
+				height = (int) (2 * bounds.height() + getLineSpacingExtra());
+			}
+			int width = bounds.width();
+			width += bounds.width() / longText.length() * 3; // magic number
+			setMeasuredDimension(width, height);
+		} else {
+			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		}
 	}
 
