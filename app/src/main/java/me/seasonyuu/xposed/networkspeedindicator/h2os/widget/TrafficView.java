@@ -77,12 +77,12 @@ public final class TrafficView extends TextView {
 
 	public final void refreshPosition() {
 		switch (prefPosition) {
-		case 0:
-			mPositionCallback.setLeft();
-			break;
-		case 1:
-			mPositionCallback.setRight();
-			break;
+			case 0:
+				mPositionCallback.setLeft();
+				break;
+			case 1:
+				mPositionCallback.setRight();
+				break;
 		}
 	}
 
@@ -309,7 +309,7 @@ public final class TrafficView extends TextView {
 	private static final long getTotalBytes(final int traffic_direction) {
 		final boolean tx = (traffic_direction == TRANSMIT);
 		long totalBytes = -9; // not -1 because it conflicts with
-								// TrafficStats.UNSUPPORTED
+		// TrafficStats.UNSUPPORTED
 		BufferedReader br = null;
 		BufferedReader br2 = null;
 
@@ -369,26 +369,34 @@ public final class TrafficView extends TextView {
 		String strUploadValue, strDownloadValue;
 
 		switch (prefSuffix) {
-		default:
-		case 0:
-			uploadSuffix = downloadSuffix = " ";
-			break;
-		case 1:
-			uploadSuffix = Common.BIG_UP_TRIANGLE;
-			downloadSuffix = Common.BIG_DOWN_TRIANGLE;
-			break;
-		case 2:
-			uploadSuffix = Common.BIG_UP_HOLLOW_TRIANGLE;
-			downloadSuffix = Common.BIG_DOWN_HOLLOW_TRIANGLE;
-			break;
-		case 3:
-			uploadSuffix = Common.SMALL_UP_TRIANGLE;
-			downloadSuffix = Common.SMALL_DOWN_TRIANGLE;
-			break;
-		case 4:
-			uploadSuffix = Common.SMALL_UP_HOLLOW_TRIANGLE;
-			downloadSuffix = Common.SMALL_DOWN_HOLLOW_TRIANGLE;
-			break;
+			default:
+			case 0:
+				uploadSuffix = downloadSuffix = " ";
+				break;
+			case 1:
+				uploadSuffix = Common.BIG_UP_TRIANGLE;
+				downloadSuffix = Common.BIG_DOWN_TRIANGLE;
+				break;
+			case 2:
+				uploadSuffix = Common.BIG_UP_HOLLOW_TRIANGLE;
+				downloadSuffix = Common.BIG_DOWN_HOLLOW_TRIANGLE;
+				break;
+			case 3:
+				uploadSuffix = Common.SMALL_UP_TRIANGLE;
+				downloadSuffix = Common.SMALL_DOWN_TRIANGLE;
+				break;
+			case 4:
+				uploadSuffix = Common.SMALL_UP_HOLLOW_TRIANGLE;
+				downloadSuffix = Common.SMALL_DOWN_HOLLOW_TRIANGLE;
+				break;
+			case 5:
+				uploadSuffix = Common.ARROW_UP;
+				downloadSuffix = Common.ARROW_DOWN;
+				break;
+			case 6:
+				uploadSuffix = Common.ARROW_UP_HOLLOW;
+				downloadSuffix = Common.ARROW_DOWN_HOLLOW;
+				break;
 		}
 
 		boolean showUploadSpeed = prefNetworkSpeed.contains("U");
@@ -435,19 +443,19 @@ public final class TrafficView extends TextView {
 		long transferSpeed = transferSpeedBytes;
 
 		switch (prefUnitMode) {
-		case 0: // Binary bits
-			transferSpeed *= 8;
-			// no break
-		case 1: // Binary bytes
-			unitFactor = 1024f;
-			break;
-		case 2: // Decimal bits
-			transferSpeed *= 8;
-			// no break
-		default:
-		case 3: // Decimal bytes
-			unitFactor = 1000f;
-			break;
+			case 0: // Binary bits
+				transferSpeed *= 8;
+				// no break
+			case 1: // Binary bytes
+				unitFactor = 1024f;
+				break;
+			case 2: // Decimal bits
+				transferSpeed *= 8;
+				// no break
+			default:
+			case 3: // Decimal bytes
+				unitFactor = 1000f;
+				break;
 		}
 
 		int tempPrefUnit = prefForceUnit;
@@ -471,19 +479,19 @@ public final class TrafficView extends TextView {
 		}
 
 		switch (tempPrefUnit) {
-		case 3:
-			transferValue = megaTransferSpeed;
-			transferDecimalFormat = formatWithDecimal;
-			break;
-		case 2:
-			transferValue = kiloTransferSpeed;
-			transferDecimalFormat = formatWithoutDecimal;
-			break;
-		default:
-		case 1:
-			transferValue = transferSpeed;
-			transferDecimalFormat = formatWithoutDecimal;
-			break;
+			case 3:
+				transferValue = megaTransferSpeed;
+				transferDecimalFormat = formatWithDecimal;
+				break;
+			case 2:
+				transferValue = kiloTransferSpeed;
+				transferDecimalFormat = formatWithoutDecimal;
+				break;
+			default:
+			case 1:
+				transferValue = transferSpeed;
+				transferDecimalFormat = formatWithoutDecimal;
+				break;
 		}
 
 		String strTransferValue;

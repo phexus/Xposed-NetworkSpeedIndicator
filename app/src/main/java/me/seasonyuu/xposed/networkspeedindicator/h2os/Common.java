@@ -79,6 +79,11 @@ public final class Common {
 	public static final String SMALL_UP_HOLLOW_TRIANGLE = " \u25B5 ";
 	public static final String SMALL_DOWN_HOLLOW_TRIANGLE = " \u25BF ";
 
+	public static final String ARROW_UP = " \u2191 ";
+	public static final String ARROW_DOWN = " \u2193 ";
+	public static final String ARROW_UP_HOLLOW = " ⇧ ";
+	public static final String ARROW_DOWN_HOLLOW = " ⇩ ";
+
 	public static final int ANDROID_SKY_BLUE = Color.parseColor("#33b5e5");
 
 	public static final int getPrefInt(final SharedPreferences pref, final String key, final int def_value) {
