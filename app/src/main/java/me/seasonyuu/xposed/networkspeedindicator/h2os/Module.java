@@ -32,6 +32,7 @@ import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.CommonPositionCallb
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback1p2;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback1p4;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallback2p5;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.PositionCallbackMiui8;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.widget.TrafficView;
 
 public final class Module implements IXposedHookLoadPackage, IXposedHookInitPackageResources {
@@ -187,6 +188,7 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 						Process p = null;
 						String romFullVersion = "";
 						String romVersion = "";
+						String miuiVersion = "";
 						try {
 							p = new ProcessBuilder("/system/bin/getprop", "ro.rom.version").redirectErrorStream(true)
 									.start();
@@ -195,7 +197,6 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 							while ((line = br.readLine()) != null) {
 								romFullVersion = line;
 							}
-							Log.e(TAG, line);
 							if (romFullVersion.split("V", 2).length > 1)
 								romVersion = romFullVersion.split("V", 2)[1];
 							p.destroy();
@@ -218,9 +219,21 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 							Log.i(TAG, "PositionCallback: H2OS 2.5");
 							trafficView.mPositionCallback = new PositionCallback2p5();
 						} else {
-							Log.e(TAG, "ROM VERSION is null");
-							// May not work
-							trafficView.mPositionCallback = new CommonPositionCallback();
+							p = new ProcessBuilder("/system/bin/getprop", "ro.miui.ui.version.name").redirectErrorStream(true)
+									.start();
+							BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+							String line = "";
+							while ((line = br.readLine()) != null) {
+								miuiVersion = line;
+							}
+							if (miuiVersion.length() > 0) {
+								Log.d(TAG, "Find MIUI " + miuiVersion);
+								trafficView.mPositionCallback = new PositionCallbackMiui8();
+							} else {
+								Log.e(TAG, "ROM VERSION is null");
+								// May not work
+								trafficView.mPositionCallback = new CommonPositionCallback();
+							}
 						}
 
 						trafficView.mPositionCallback.setup(liparam, trafficView);
