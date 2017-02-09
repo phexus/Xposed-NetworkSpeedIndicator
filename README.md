@@ -1,6 +1,6 @@
 Network Speed Indicator for Oneplus
 =======================
-
+![](app/src/main/res/mipmap-xhdpi/ic_launcher.png)
 Displays network speeds on the status bar. Requires a rooted phone with Xposed Module installed.
 
 This is a continuous work from [Dzakus'](http://repo.xposed.info/module/pl.com.android.networkspeedindicator) and [FatMinMin's](http://repo.xposed.info/module/tw.fatminmin.xposed.networkspeedindicator) great work. Many thanks to the contributors and translators!
