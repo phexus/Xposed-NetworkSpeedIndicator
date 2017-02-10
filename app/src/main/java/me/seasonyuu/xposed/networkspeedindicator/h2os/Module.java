@@ -64,30 +64,6 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 		try {
 			Class<?> cClock = XposedHelpers.findClass("com.android.systemui.statusbar.policy.Clock",
 					lpparam.classLoader);
-			XposedBridge.hookAllMethods(cClock, "setTextColor", new XC_MethodHook() {
-				@Override
-				protected final void afterHookedMethod(final MethodHookParam param) throws Throwable {
-					try {
-						if (param.thisObject != getClock())
-							return;
-
-						if (trafficView != null && clock != null) {
-							if (clock instanceof TextView) {
-								trafficView.setTextColor(((TextView) clock).getCurrentTextColor());
-							} else {
-								// probably LinearLayout in VN ROM v14.1 (need
-								// to search child elements to find correct text
-								// color)
-								Log.w(TAG, "clock is not a TextView, it is ", clock.getClass().getSimpleName());
-								trafficView.setTextColor(Common.ANDROID_SKY_BLUE);
-							}
-						}
-					} catch (Exception e) {
-						Log.e(TAG, "afterHookedMethod (setTextColor) failed: ", e);
-						throw e;
-					}
-				}
-			});
 
 			// we hook this method to follow alpha changes in kitkat
 			Method setAlpha = XposedHelpers.findMethodBestMatch(cClock, "setAlpha", Float.class);
@@ -114,8 +90,18 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 					}
 				}
 			});
-		} catch (Exception e) {
-			Log.e(TAG, "handleLoadPackage failure ignored: ", e);
+
+			final Class<?> sbiCtrlClass = XposedHelpers
+					.findClass("com.android.systemui.statusbar.phone.StatusBarIconController",
+							lpparam.classLoader);
+			XposedHelpers.findAndHookMethod(sbiCtrlClass, "applyIconTint", new XC_MethodHook() {
+				@Override
+				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+					if (trafficView != null && clock != null) {
+						trafficView.setTextColor(((TextView) clock).getCurrentTextColor());
+					}
+				}
+			});
 		} catch (ClassNotFoundError e) {
 			// Clock class not found, ignore
 			Log.w(TAG, "handleLoadPackage failure ignored: ", e);
