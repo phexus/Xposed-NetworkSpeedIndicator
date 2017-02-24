@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="settings" >
+    android:key="settings">
 
-    <PreferenceCategory android:title="@string/pref_category_ind_settings" >
+    <PreferenceCategory android:title="@string/pref_category_ind_settings">
         <EditTextPreference
             android:hint="@string/hint_update_interval"
             android:inputType="number"
@@ -29,12 +29,8 @@
             android:key="hide_below"
             android:title="@string/pref_hide_below" />
 
-        <CheckBoxPreference
-            android:key="hide_launcher_icon"
-            android:summary="@string/pref_hide_launcher_icon_summary"
-            android:title="@string/pref_hide_launcher_icon_title"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_category_ind_appearance" >
+    <PreferenceCategory android:title="@string/pref_category_ind_appearance">
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/position_entries"
@@ -65,7 +61,7 @@
             android:key="show_suffix"
             android:title="@string/pref_show_suffix" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_category_unit_settings" >
+    <PreferenceCategory android:title="@string/pref_category_unit_settings">
         <ListPreference
             android:defaultValue="3"
             android:entries="@array/unit_mode_entries"
@@ -83,7 +79,7 @@
             android:entries="@array/unit_entries_decimal_bytes"
             android:entryValues="@array/unit_values"
             android:key="min_unit"
-            android:title="@string/pref_min_unit_title"/>
+            android:title="@string/pref_min_unit_title" />
 
         <com.h6ah4i.android.compat.preference.MultiSelectListPreferenceCompat
             android:defaultValue="@array/unit_format_defaults"
@@ -92,7 +88,7 @@
             android:key="unit_format"
             android:title="@string/pref_unit_format" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_category_text_appearance" >
+    <PreferenceCategory android:title="@string/pref_category_text_appearance">
         <EditTextPreference
             android:hint="@string/hint_font_size"
             android:inputType="numberDecimal"
@@ -119,7 +115,20 @@
             android:key="color"
             android:title="@string/dialog_color_picker" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_category_help" >
+    <PreferenceCategory android:title="@string/others">
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/speed_way_entries"
+            android:title="@string/pref_get_speed_way"
+            android:entryValues="@array/speed_way_value"
+            android:key="get_speed_way" />
+
+        <CheckBoxPreference
+            android:key="hide_launcher_icon"
+            android:summary="@string/pref_hide_launcher_icon_summary"
+            android:title="@string/pref_hide_launcher_icon_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_category_help">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_logging_beta"
@@ -127,14 +136,14 @@
 
         <PreferenceScreen
             android:summary="@string/note_clear_data"
-            android:title="@string/pref_report_issue" >
+            android:title="@string/pref_report_issue">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/url_report_issue" />
         </PreferenceScreen>
         <PreferenceScreen
             android:summary="@string/url_discuss_oneplus"
-            android:title="@string/pref_discuss_oneplus" >
+            android:title="@string/pref_discuss_oneplus">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/url_discuss_oneplus" />

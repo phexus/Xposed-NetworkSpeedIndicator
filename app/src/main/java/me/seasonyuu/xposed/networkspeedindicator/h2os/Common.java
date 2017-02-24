@@ -33,6 +33,7 @@ public final class Common {
 	public static final String KEY_ENABLE_LOG = "enable_logging_beta";
 	public static final String KEY_HIDE_LAUNCHER_ICON = "hide_launcher_icon";
 	public static final String KEY_MIN_UNIT = "min_unit";
+	public static final String KEY_GET_SPEED_WAY = "get_speed_way";
 
 	public static final HashSet<String> DEF_NETWORK_TYPE = new HashSet<String>();
 
@@ -72,6 +73,7 @@ public final class Common {
 	public static final boolean DEF_ENABLE_LOG = false;
 	public static final boolean DEF_HIDE_LAUNCHER_ICON = false;
 	public static final int DEF_MIN_UNIT = 0;
+	public static final int DEF_SPEED_WAY = 0;
 
 	public static final String BIG_UP_TRIANGLE = " ▲ ";// \u25B2
 	public static final String BIG_DOWN_TRIANGLE = " ▼ ";// \u25BC

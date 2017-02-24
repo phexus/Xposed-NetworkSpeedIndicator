@@ -10,25 +10,21 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.TrafficStats;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.text.SpannableString;
-import android.text.TextPaint;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.text.DecimalFormat;
 import java.util.Set;
 
 import de.robv.android.xposed.XSharedPreferences;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.Common;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.TrafficStats;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.logger.Log;
 
 @SuppressLint("HandlerLeak")
@@ -57,6 +53,7 @@ public final class TrafficView extends TextView {
     private int prefForceUnit = Common.DEF_FORCE_UNIT;
     private int prefMinUnit = Common.DEF_MIN_UNIT;
     private int prefUnitMode = Common.DEF_UNIT_MODE;
+    private int prefSpeedWay = Common.DEF_SPEED_WAY;
     private float prefFontSize = Common.DEF_FONT_SIZE;
     private int prefSuffix = Common.DEF_SUFFIX;
     private int prefDisplay = Common.DEF_DISPLAY;
@@ -225,8 +222,10 @@ public final class TrafficView extends TextView {
             try {
                 // changing values must be fetched together and only once
                 long lastUpdateTimeNew = SystemClock.elapsedRealtime();
-                long totalTxBytesNew = getTotalBytes(TRANSMIT);
-                long totalRxBytesNew = getTotalBytes(RECEIVE);
+                int way = prefSpeedWay == 0 ? TrafficStats.DEFAULT_WAY : TrafficStats.GRAVITY_BOX_WAY;
+                long[] totalBytes = TrafficStats.getTotalBytes(way);
+                long totalTxBytesNew = totalBytes[1];
+                long totalRxBytesNew = totalBytes[0];
 
                 long elapsedTime = lastUpdateTimeNew - lastUpdateTime;
 
@@ -326,75 +325,16 @@ public final class TrafficView extends TextView {
         if (justLaunched) {
             // get the values for the first time
             lastUpdateTime = SystemClock.elapsedRealtime();
-            totalTxBytes = getTotalBytes(TRANSMIT);
-            totalRxBytes = getTotalBytes(RECEIVE);
+            int way = prefSpeedWay == 0 ? TrafficStats.DEFAULT_WAY : TrafficStats.GRAVITY_BOX_WAY;
+            long[] totalBytes = TrafficStats.getTotalBytes(way);
+            totalTxBytes = totalBytes[1];
+            totalRxBytes = totalBytes[0];
 
             // don't get the values again
             justLaunched = false;
         }
 
         mTrafficHandler.sendEmptyMessage(0);
-    }
-
-    private static final int TRANSMIT = 0;
-    private static final int RECEIVE = 1;
-
-    private static final long getTotalBytes(final int traffic_direction) {
-        final boolean tx = (traffic_direction == TRANSMIT);
-        long totalBytes = -9; // not -1 because it conflicts with
-        // TrafficStats.UNSUPPORTED
-        BufferedReader br = null;
-        BufferedReader br2 = null;
-
-        try {
-            br = new BufferedReader(new FileReader("/sys/class/net/lo/statistics/" + (tx ? "tx" : "rx") + "_bytes"));
-
-            // reading both together to reduce delay in between as much as
-            // possible
-            totalBytes = tx ? TrafficStats.getTotalTxBytes() : TrafficStats.getTotalRxBytes();
-            String line = br.readLine();
-
-            long loBytes = Long.parseLong(line);
-
-            long tun0Bytes = 0;
-
-            File tun0 = new File("/sys/class/net/tun0");
-            if (tun0.exists()) {
-                br2 = new BufferedReader(
-                        new FileReader("/sys/class/net/tun0/statistics/" + (tx ? "tx" : "rx") + "_bytes"));
-                String line2 = br2.readLine();
-                tun0Bytes = Long.parseLong(line2);
-            }
-
-            Log.d(TAG, traffic_direction, " total: ", totalBytes, ", lo: ", loBytes, "tun0: ", tun0Bytes);
-
-            totalBytes = totalBytes - loBytes - tun0Bytes;
-
-        } catch (Exception e) {
-            Log.i(TAG, "Loopback exclusion failed: ", e);
-
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (Exception e) {
-                    // ignore
-                }
-            }
-            if (br2 != null) {
-                try {
-                    br2.close();
-                } catch (Exception e) {
-                    // ignore
-                }
-            }
-        }
-
-        if (totalBytes == -9) {
-            totalBytes = tx ? TrafficStats.getTotalTxBytes() : TrafficStats.getTotalRxBytes();
-        }
-
-        return totalBytes;
     }
 
     private final String createText() {
@@ -630,12 +570,14 @@ public final class TrafficView extends TextView {
             int localPrefColor = mPref.getInt(Common.KEY_COLOR, Common.DEF_COLOR);
             Set<String> localPrefFontStyle = mPref.getStringSet(Common.KEY_FONT_STYLE, Common.DEF_FONT_STYLE);
             boolean localEnableLogging = mPref.getBoolean(Common.KEY_ENABLE_LOG, Common.DEF_ENABLE_LOG);
+            int localSpeedWay = mPref.getInt(Common.KEY_GET_SPEED_WAY, Common.DEF_SPEED_WAY);
 
             // only when all are fetched, set them to fields
             prefForceUnit = localPrefForceUnit;
             prefMinUnit = localPrefMinUnit;
             prefUnitMode = localPrefUnitMode;
             prefUnitFormat = localPrefUnitFormat;
+            prefSpeedWay = localSpeedWay;
             prefHideBelow = localPrefHideBelow;
             prefShowSuffix = localPrefShowSuffix;
             prefFontSize = localPrefFontSize;

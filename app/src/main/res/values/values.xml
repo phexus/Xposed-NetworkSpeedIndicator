@@ -96,6 +96,10 @@
 		<item>B</item>
 		<item>I</item>
 	</string-array>
+	<string-array name="speed_way_value" translatable="false">
+		<item>0</item>
+		<item>1</item>
+	</string-array>
 
 	<string name="url_report_issue" translatable="false">https://github.com/seasonyuu/Xposed-NetworkSpeedIndicator/issues</string>
 	<string name="url_discuss_oneplus" translatable="false">http://www.oneplusbbs.com/forum.php?mod=viewthread&amp;tid=2881051</string>

@@ -304,6 +304,8 @@ public final class SettingsActivity extends PreferenceActivity implements OnShar
                 MultiSelectListPreferenceCompat mulPref = (MultiSelectListPreferenceCompat) findPreference(key);
                 HashSet<String> value = (HashSet<String>) mulPref.getValues();
                 intent.putExtra(key, value);
+            } else if (key.equals(Common.KEY_GET_SPEED_WAY)) {
+                intent.putExtra(key, Common.getPrefInt(prefs, key, Common.DEF_SPEED_WAY));
             } else if (key.equals(Common.KEY_MIN_UNIT)) {
                 intent.putExtra(key, Common.getPrefInt(prefs, key, Common.DEF_FORCE_UNIT));
             } else if (key.equals(Common.KEY_HIDE_LAUNCHER_ICON)) {

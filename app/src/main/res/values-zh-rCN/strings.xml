@@ -107,5 +107,9 @@
 	<string name="pref_hide_launcher_icon_summary">桌面可能需要重新启动</string>
 	<string name="pref_min_unit_title">最小单位</string>
 	<string name="pref_min_unit_summary">当网速小于最小单位时，显示为0</string>
+	<string name="others">其他</string>
+	<string name="pref_get_speed_way">网速获取方式</string>
+	<string name="speed_way_default">默认方式</string>
+	<string name="speed_way_gravity_box">重力工具箱方式</string>
 
 </resources>
