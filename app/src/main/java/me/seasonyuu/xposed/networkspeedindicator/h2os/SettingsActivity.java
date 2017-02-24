@@ -270,7 +270,9 @@ public final class SettingsActivity extends PreferenceActivity implements OnShar
             intent.setAction(Common.ACTION_SETTINGS_CHANGED);
 
             if (key.equals(Common.KEY_FORCE_UNIT)) {
-                intent.putExtra(key, Common.getPrefInt(prefs, key, Common.DEF_FORCE_UNIT));
+                int value = Common.getPrefInt(prefs, key, Common.DEF_FORCE_UNIT);
+                findPreference(Common.KEY_MIN_UNIT).setEnabled(value == 0);
+                intent.putExtra(key, value);
             } else if (key.equals(Common.KEY_UNIT_MODE)) {
                 intent.putExtra(key, Common.getPrefInt(prefs, key, Common.DEF_UNIT_MODE));
             } else if (key.equals(Common.KEY_HIDE_BELOW)) {
@@ -302,6 +304,8 @@ public final class SettingsActivity extends PreferenceActivity implements OnShar
                 MultiSelectListPreferenceCompat mulPref = (MultiSelectListPreferenceCompat) findPreference(key);
                 HashSet<String> value = (HashSet<String>) mulPref.getValues();
                 intent.putExtra(key, value);
+            } else if (key.equals(Common.KEY_MIN_UNIT)) {
+                intent.putExtra(key, Common.getPrefInt(prefs, key, Common.DEF_FORCE_UNIT));
             } else if (key.equals(Common.KEY_HIDE_LAUNCHER_ICON)) {
                 ComponentName componentName = new ComponentName(this,
                         "me.seasonyuu.xposed.networkspeedindicator.h2os.SettingsActivity.Alias");

@@ -78,6 +78,12 @@
             android:entryValues="@array/unit_values"
             android:key="force_unit"
             android:title="@string/pref_unit" />
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/unit_entries_decimal_bytes"
+            android:entryValues="@array/unit_values"
+            android:key="min_unit"
+            android:title="@string/pref_min_unit_title"/>
 
         <com.h6ah4i.android.compat.preference.MultiSelectListPreferenceCompat
             android:defaultValue="@array/unit_format_defaults"

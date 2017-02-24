@@ -102,5 +102,7 @@
 	</string-array>
 	<string name="pref_hide_launcher_icon_title">Hide launcher icon</string>
 	<string name="pref_hide_launcher_icon_summary">May require launcher restart</string>
+	<string name="pref_min_unit_title">Minimum unit</string>
+	<string name="pref_min_unit_summary">For example, when setting "KB/s" and the speed is lower than 1KB/s, it will display as 0KB/s</string>
 
 </resources>
