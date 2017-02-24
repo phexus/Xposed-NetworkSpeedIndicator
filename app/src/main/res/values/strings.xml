@@ -100,5 +100,7 @@
 		<item>Bold</item>
 		<item>Italic</item>
 	</string-array>
+	<string name="pref_hide_launcher_icon_title">Hide launcher icon</string>
+	<string name="pref_hide_launcher_icon_summary">May require launcher restart</string>
 
 </resources>
