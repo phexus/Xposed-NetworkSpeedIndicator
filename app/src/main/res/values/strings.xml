@@ -104,5 +104,13 @@
 	<string name="pref_hide_launcher_icon_summary">May require launcher restart</string>
 	<string name="pref_min_unit_title">Minimum unit</string>
 	<string name="pref_min_unit_summary">For example, when setting "KB/s" and the speed is lower than 1KB/s, it will display as 0KB/s</string>
+	<string name="others">Others</string>
+	<string name="pref_get_speed_way">Way of getting network speed</string>
+	<string-array name="speed_way_entries">
+		<item>@string/speed_way_default</item>
+		<item>@string/speed_way_gravity_box</item>
+	</string-array>
+	<string name="speed_way_default">Default way</string>
+	<string name="speed_way_gravity_box">GravityBox way</string>
 
 </resources>
