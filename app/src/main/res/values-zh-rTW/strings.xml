@@ -97,5 +97,7 @@
 		<item>斜體</item>
 	</string-array>
 	<string name="pref_swap_speeds">交換上載下載位置</string>
+	<string name="pref_hide_launcher_icon_title">隱藏啟動器圖示</string>
+	<string name="pref_hide_launcher_icon_summary">可能需要重新啟動啟動器才能生效</string>
 
 </resources>

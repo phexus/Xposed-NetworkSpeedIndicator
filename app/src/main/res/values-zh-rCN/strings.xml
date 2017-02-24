@@ -103,5 +103,7 @@
 		<item>粗体</item>
 		<item>斜体</item>
 	</string-array>
+	<string name="pref_hide_launcher_icon_title">隐藏桌面图标</string>
+	<string name="pref_hide_launcher_icon_summary">桌面可能需要重新启动</string>
 
 </resources>

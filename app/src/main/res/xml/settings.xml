@@ -28,6 +28,11 @@
             android:inputType="number"
             android:key="hide_below"
             android:title="@string/pref_hide_below" />
+
+        <CheckBoxPreference
+            android:key="hide_launcher_icon"
+            android:summary="@string/pref_hide_launcher_icon_summary"
+            android:title="@string/pref_hide_launcher_icon_title"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_category_ind_appearance" >
         <ListPreference

@@ -31,6 +31,7 @@ public final class Common {
 	public static final String KEY_COLOR = "color";
 	public static final String KEY_FONT_STYLE = "font_style";
 	public static final String KEY_ENABLE_LOG = "enable_logging_beta";
+	public static final String KEY_HIDE_LAUNCHER_ICON = "hide_launcher_icon";
 
 	public static final HashSet<String> DEF_NETWORK_TYPE = new HashSet<String>();
 
@@ -68,6 +69,7 @@ public final class Common {
 	public static final int DEF_COLOR = Color.LTGRAY;
 	public static final HashSet<String> DEF_FONT_STYLE = new HashSet<String>();
 	public static final boolean DEF_ENABLE_LOG = false;
+	public static final boolean DEF_HIDE_LAUNCHER_ICON = false;
 
 	public static final String BIG_UP_TRIANGLE = " ▲ ";// \u25B2
 	public static final String BIG_DOWN_TRIANGLE = " ▼ ";// \u25BC
