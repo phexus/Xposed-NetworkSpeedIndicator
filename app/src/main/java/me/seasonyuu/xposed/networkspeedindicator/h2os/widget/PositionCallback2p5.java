@@ -39,6 +39,11 @@ public class PositionCallback2p5 implements PositionCallback {
 	}
 
 	@Override
+	public void setup(View clock, View v) {
+
+	}
+
+	@Override
 	public void setLeft() {
 		removeFromParent();
 
