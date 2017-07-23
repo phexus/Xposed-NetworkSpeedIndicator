@@ -97,7 +97,10 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
                         // To support Android N
                         Log.i(TAG, "Replace clock");
 
-                        clock = (View) param.thisObject;
+                        View view = (View) param.thisObject;
+                        if(view.getPaddingStart() == 0) return;
+
+                        clock = view;
 
                         trafficView = new TrafficView(clock.getContext());
                         trafficView.setLayoutParams(clock.getLayoutParams());
