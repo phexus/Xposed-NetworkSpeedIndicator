@@ -2,8 +2,11 @@ package me.seasonyuu.xposed.networkspeedindicator.h2os;
 
 import android.annotation.SuppressLint;
 import android.content.res.XResources;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -39,7 +42,8 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
     private static final String TAG = Module.class.getSimpleName();
 
     private final View getClock() {
-        if (trafficView == null || trafficView.mPositionCallback == null) {
+        if (trafficView == null || trafficView.mPositionCallback == null
+                || trafficView.mPositionCallback.getClockParent() == null) {
             return null;
         }
 
@@ -87,32 +91,107 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
                     }
                 }
             });
-            Method onAttachedToWindow = XposedHelpers.findMethodBestMatch(cClock, "onAttachedToWindow");
-            XposedBridge.hookMethod(onAttachedToWindow, new XC_MethodHook() {
+
+            final Class<?> phoneStatusBarClass =
+                    XposedHelpers.findClass("com.android.systemui.statusbar.phone.PhoneStatusBar",
+                            lpparam.classLoader);
+            XposedHelpers.findAndHookMethod(phoneStatusBarClass, "makeStatusBarView", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
+                    if (getClock() != null)
+                        return;
+                    try {
+                        Object phoneStatusBar = param.thisObject;
+                        final View root = (View) XposedHelpers.getObjectField(phoneStatusBar, "mStatusBarView");
 
-                    if (param.thisObject != null && getClock() == null) {
-                        // To support Android N
-                        Log.i(TAG, "Replace clock");
+                        clock = root.findViewById(root.getResources().getIdentifier("clock", "id", PKG_NAME_SYSTEM_UI));
+                        statusIcons = root
+                                .findViewById(root.getResources().getIdentifier("statusIcons", "id", PKG_NAME_SYSTEM_UI));
 
-                        View view = (View) param.thisObject;
-                        if(view.getPaddingStart() == 0) return;
-
-                        clock = view;
-
-                        trafficView = new TrafficView(clock.getContext());
-                        trafficView.setLayoutParams(clock.getLayoutParams());
-                        trafficView.setTextColor(((TextView) clock).getCurrentTextColor());
-                        trafficView.clock = clock;
-
+                        if (trafficView == null) {
+                            trafficView = new TrafficView(root.getContext());
+                            trafficView.clock = clock;
+                        }
+                        if (clock != null) {
+                            trafficView.setLayoutParams(clock.getLayoutParams());
+                            if (clock instanceof TextView) {
+                                int color = ((TextView) clock).getCurrentTextColor();
+                                trafficView.setIconTint(color);
+                                trafficView.refreshColor();
+                            } else {
+                                // probably LinearLayout in VN ROM v14.1 (need
+                                // to search child elements to find correct text
+                                // color)
+                                Log.w(TAG, "clock is not a TextView, it is ", clock.getClass().getSimpleName());
+                                int color = Common.ANDROID_SKY_BLUE;
+                                trafficView.setIconTint(color);
+                                trafficView.refreshColor();
+                            }
+                        }
                         trafficView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
 
-                        trafficView.mPositionCallback = new CommonPositionCallback();
+                        Log.i(TAG, "find Clock succeed");
 
-                        trafficView.mPositionCallback.setup(clock, trafficView);
+                        Process p = null;
+                        String romFullVersion = "";
+                        String romVersion = "";
+                        String miuiVersion = "";
+                        try {
+                            p = new ProcessBuilder("/system/bin/getprop", "ro.rom.version").redirectErrorStream(true)
+                                    .start();
+                            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                            String line = "";
+                            while ((line = br.readLine()) != null) {
+                                romFullVersion = line;
+                            }
+                            if (romFullVersion.split("V", 2).length > 1)
+                                romVersion = romFullVersion.split("V", 2)[1];
+                            p.destroy();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, e.getStackTrace().toString());
+                        }
+                        if (romVersion.length() > 0) {
+                            if (romVersion.compareTo("2.5.0") >= 0) {
+                                Log.i(TAG, "PositionCallback: H2OS 2.5");
+                                trafficView.mPositionCallback = new PositionCallback2p5();
+                            } else if (romVersion.compareTo("1.4.0") >= 0) {
+                                Log.i(TAG, "PositionCallback: H2OS 1.4");
+                                trafficView.mPositionCallback = new PositionCallback1p4();
+                            } else if (romVersion.compareTo("1.2.0") >= 0) {
+                                Log.i(TAG, "PositionCallback: H2OS 1.2");
+                                trafficView.mPositionCallback = new PositionCallback1p2();
+                            }
+                        } else if (romFullVersion.contains("OP3_H2_Open") || romFullVersion.contains("OP3T_H2_Open")) {
+                            Log.i(TAG, "PositionCallback: H2OS 2.5");
+                            if (Build.VERSION.SDK_INT > 23)
+                                trafficView.mPositionCallback = new CommonPositionCallback();
+                            else
+                                trafficView.mPositionCallback = new PositionCallback2p5();
+                        } else {
+                            p = new ProcessBuilder("/system/bin/getprop", "ro.miui.ui.version.name").redirectErrorStream(true)
+                                    .start();
+                            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                            String line = "";
+                            while ((line = br.readLine()) != null) {
+                                miuiVersion = line;
+                            }
+                            if (miuiVersion.length() > 0) {
+                                Log.d(TAG, "Find MIUI " + miuiVersion);
+                                trafficView.mPositionCallback = new PositionCallbackMiui8();
+                            } else {
+                                Log.e(TAG, "ROM VERSION is null");
+                                // May not work
+                                trafficView.mPositionCallback = new CommonPositionCallback();
+                            }
+                        }
+
+                        trafficView.mPositionCallback.setup(root, trafficView);
                         trafficView.refreshPosition();
+                    } catch (Exception e) {
+                        Log.e(TAG, "handleLayoutInflated failed: ", e);
+                        throw e;
                     }
                 }
             });
@@ -123,8 +202,10 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
             XposedHelpers.findAndHookMethod(sbiCtrlClass, "applyIconTint", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (trafficView != null && clock != null) {
-                        trafficView.setTextColor(((TextView) clock).getCurrentTextColor());
+                    if (trafficView != null) {
+                        int iconTint = XposedHelpers.getIntField(param.thisObject, "mIconTint");
+                        trafficView.setIconTint(iconTint);
+                        trafficView.refreshColor();
                     }
                 }
             });
@@ -170,90 +251,7 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 
                 @Override
                 public final void handleLayoutInflated(final LayoutInflatedParam liparam) throws Throwable {
-                    try {
-                        FrameLayout root = (FrameLayout) liparam.view;
 
-                        clock = root.findViewById(liparam.res.getIdentifier("clock", "id", PKG_NAME_SYSTEM_UI));
-                        statusIcons = root
-                                .findViewById(liparam.res.getIdentifier("statusIcons", "id", PKG_NAME_SYSTEM_UI));
-
-                        if (trafficView == null) {
-                            trafficView = new TrafficView(root.getContext());
-                            trafficView.clock = clock;
-                        }
-                        if (clock != null) {
-                            trafficView.setLayoutParams(clock.getLayoutParams());
-                            if (clock instanceof TextView) {
-                                trafficView.setTextColor(((TextView) clock).getCurrentTextColor());
-                            } else {
-                                // probably LinearLayout in VN ROM v14.1 (need
-                                // to search child elements to find correct text
-                                // color)
-                                Log.w(TAG, "clock is not a TextView, it is ", clock.getClass().getSimpleName());
-                                trafficView.setTextColor(Common.ANDROID_SKY_BLUE);
-                            }
-                        }
-                        trafficView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-
-                        Log.i(TAG, "find Clock succeed");
-
-                        Process p = null;
-                        String romFullVersion = "";
-                        String romVersion = "";
-                        String miuiVersion = "";
-                        try {
-                            p = new ProcessBuilder("/system/bin/getprop", "ro.rom.version").redirectErrorStream(true)
-                                    .start();
-                            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                            String line = "";
-                            while ((line = br.readLine()) != null) {
-                                romFullVersion = line;
-                            }
-                            if (romFullVersion.split("V", 2).length > 1)
-                                romVersion = romFullVersion.split("V", 2)[1];
-                            p.destroy();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Log.e(TAG, e.getStackTrace().toString());
-                        }
-                        if (romVersion.length() > 0) {
-                            if (romVersion.compareTo("2.5.0") >= 0) {
-                                Log.i(TAG, "PositionCallback: H2OS 2.5");
-                                trafficView.mPositionCallback = new PositionCallback2p5();
-                            } else if (romVersion.compareTo("1.4.0") >= 0) {
-                                Log.i(TAG, "PositionCallback: H2OS 1.4");
-                                trafficView.mPositionCallback = new PositionCallback1p4();
-                            } else if (romVersion.compareTo("1.2.0") >= 0) {
-                                Log.i(TAG, "PositionCallback: H2OS 1.2");
-                                trafficView.mPositionCallback = new PositionCallback1p2();
-                            }
-                        } else if (romFullVersion.contains("OP3_H2_Open") || romFullVersion.contains("OP3T_H2_Open")) {
-                            Log.i(TAG, "PositionCallback: H2OS 2.5");
-                            trafficView.mPositionCallback = new PositionCallback2p5();
-                        } else {
-                            p = new ProcessBuilder("/system/bin/getprop", "ro.miui.ui.version.name").redirectErrorStream(true)
-                                    .start();
-                            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                            String line = "";
-                            while ((line = br.readLine()) != null) {
-                                miuiVersion = line;
-                            }
-                            if (miuiVersion.length() > 0) {
-                                Log.d(TAG, "Find MIUI " + miuiVersion);
-                                trafficView.mPositionCallback = new PositionCallbackMiui8();
-                            } else {
-                                Log.e(TAG, "ROM VERSION is null");
-                                // May not work
-                                trafficView.mPositionCallback = new CommonPositionCallback();
-                            }
-                        }
-
-                        trafficView.mPositionCallback.setup(liparam, trafficView);
-                        trafficView.refreshPosition();
-                    } catch (Exception e) {
-                        Log.e(TAG, "handleLayoutInflated failed: ", e);
-                        throw e;
-                    }
                 }
             });
         } catch (Exception e) {

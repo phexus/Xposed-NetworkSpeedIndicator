@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import de.robv.android.xposed.callbacks.XC_LayoutInflated.LayoutInflatedParam;
 
@@ -35,14 +36,17 @@ public class CommonPositionCallback implements PositionCallback {
         mStatusBarContents.addView(container, 0);
     }
 
-    public void setup(View clock, View trafficView) {
+    public void setup(View root, View trafficView) {
         view = trafficView;
 
-        mSystemIconArea = (LinearLayout) clock.getParent();
+        mSystemIconArea = (LinearLayout) root
+                .findViewById(root.getResources().getIdentifier("system_icon_area", "id", PKG_NAME_SYSTEM_UI));
+        mStatusBarContents = (LinearLayout) root
+                .findViewById(root.getResources().getIdentifier("status_bar_contents", "id", PKG_NAME_SYSTEM_UI));
 
         mStatusBarContents = (LinearLayout) mSystemIconArea.getParent();
 
-        container = new LinearLayout(clock.getContext());
+        container = new LinearLayout(root.getContext());
         container.setOrientation(LinearLayout.HORIZONTAL);
         container.setWeightSum(1);
         container.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
