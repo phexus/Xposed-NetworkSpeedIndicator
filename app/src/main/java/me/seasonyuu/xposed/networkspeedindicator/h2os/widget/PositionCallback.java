@@ -6,7 +6,7 @@ import de.robv.android.xposed.callbacks.XC_LayoutInflated.LayoutInflatedParam;
 
 public interface PositionCallback {
 	void setup(LayoutInflatedParam liparam, View v);
-	void setup(View clock, View v);
+	void setup(View root, View v);
 	void setLeft();
 	void setRight();
 	ViewGroup getClockParent();

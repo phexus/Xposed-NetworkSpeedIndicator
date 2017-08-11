@@ -48,8 +48,23 @@ public class PositionCallbackMiui8 implements PositionCallback {
 	}
 
 	@Override
-	public void setup(View clock, View v) {
+	public void setup(View root, View v) {
+		mSystemIconArea = (ViewGroup) root.findViewById(root.getResources().getIdentifier("statusbar_icon", "id",
+				PKG_NAME_SYSTEM_UI));
 
+		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		layoutParams.addRule(RelativeLayout.END_OF, root.getResources().getIdentifier("notification_icon_area", "id",
+				PKG_NAME_SYSTEM_UI));
+
+		mStatusBarContents = (ViewGroup) root.findViewById(root.getResources().getIdentifier("icons", "id",
+				PKG_NAME_SYSTEM_UI));
+
+		container = new LinearLayout(root.getContext());
+		container.setOrientation(LinearLayout.HORIZONTAL);
+		container.setWeightSum(1);
+		container.setLayoutParams(layoutParams);
+		container.setVisibility(View.GONE);
+		mStatusBarContents.addView(container, 0);
 	}
 
 	@Override

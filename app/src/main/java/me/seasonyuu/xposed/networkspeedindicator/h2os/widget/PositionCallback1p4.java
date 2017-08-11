@@ -52,8 +52,25 @@ public class PositionCallback1p4 implements PositionCallback {
 	}
 
 	@Override
-	public void setup(View clock, View v) {
+	public void setup(View root, View v) {
+		view = v;
 
+		mSystemIconArea = (LinearLayout) root
+				.findViewById(root.getResources().getIdentifier("system_icon_area", "id", PKG_NAME_SYSTEM_UI));
+		mStatusBarContents = (RelativeLayout) root
+				.findViewById(root.getResources().getIdentifier("status_bar_contents", "id", PKG_NAME_SYSTEM_UI));
+
+		container = new LinearLayout(root.getContext());
+		container.setId(TRAFFIC_VIEW_CONTAINER_ID);
+		container.setOrientation(LinearLayout.HORIZONTAL);
+		container.setWeightSum(1);
+		container.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+		container.setVisibility(View.GONE);
+
+//		mStatusBarContents.addView(container, 0);
+		LinearLayout iconAreaInner = (LinearLayout) root
+				.findViewById(root.getResources().getIdentifier("notification_icon_area_inner", "id", PKG_NAME_SYSTEM_UI));
+		iconAreaInner.addView(container);
 	}
 
 	@Override
