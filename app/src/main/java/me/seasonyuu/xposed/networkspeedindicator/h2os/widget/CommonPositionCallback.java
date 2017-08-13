@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import de.robv.android.xposed.callbacks.XC_LayoutInflated.LayoutInflatedParam;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.Utils;
 
 public class CommonPositionCallback implements PositionCallback {
 
@@ -39,10 +40,8 @@ public class CommonPositionCallback implements PositionCallback {
     public void setup(View root, View trafficView) {
         view = trafficView;
 
-        mSystemIconArea = (LinearLayout) root
-                .findViewById(root.getResources().getIdentifier("system_icon_area", "id", PKG_NAME_SYSTEM_UI));
-        mStatusBarContents = (LinearLayout) root
-                .findViewById(root.getResources().getIdentifier("status_bar_contents", "id", PKG_NAME_SYSTEM_UI));
+        mSystemIconArea = Utils.findViewById(root,"system_icon_area",PKG_NAME_SYSTEM_UI);
+        mStatusBarContents = Utils.findViewById(root,"status_bar_contents",PKG_NAME_SYSTEM_UI);
 
         mStatusBarContents = (LinearLayout) mSystemIconArea.getParent();
 

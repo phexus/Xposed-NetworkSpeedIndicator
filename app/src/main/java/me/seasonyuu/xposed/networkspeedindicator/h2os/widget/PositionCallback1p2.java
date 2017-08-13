@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import de.robv.android.xposed.callbacks.XC_LayoutInflated.LayoutInflatedParam;
 import me.seasonyuu.xposed.networkspeedindicator.h2os.R;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.Utils;
 
 /**
  * 实现氢OS 1.2以上的状态栏网速位置
@@ -54,10 +55,8 @@ public class PositionCallback1p2 implements PositionCallback {
     public void setup(View root, View v) {
         view = v;
 
-        mSystemIconArea = (LinearLayout) root
-                .findViewById(root.getResources().getIdentifier("system_icon_area", "id", PKG_NAME_SYSTEM_UI));
-        mStatusBarContents = (RelativeLayout) root
-                .findViewById(root.getResources().getIdentifier("status_bar_contents", "id", PKG_NAME_SYSTEM_UI));
+        mSystemIconArea = Utils.findViewById(root,"system_icon_area",PKG_NAME_SYSTEM_UI);
+        mStatusBarContents = Utils.findViewById(root,"status_bar_contents",PKG_NAME_SYSTEM_UI);
 
         container = new LinearLayout(root.getContext());
         container.setId(TRAFFIC_VIEW_CONTAINER_ID);
