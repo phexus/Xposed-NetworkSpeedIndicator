@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
+import me.seasonyuu.xposed.networkspeedindicator.h2os.Utils;
 
 /**
  * position callback for miui8
@@ -17,83 +18,82 @@ import de.robv.android.xposed.callbacks.XC_LayoutInflated;
  */
 public class PositionCallbackMiui8 implements PositionCallback {
 
-	private static final String PKG_NAME_SYSTEM_UI = "com.android.systemui";
-	private ViewGroup mSystemIconArea;
-	private ViewGroup mStatusBarContents;
-	private LinearLayout container;
-	private View view;
+    private static final String PKG_NAME_SYSTEM_UI = "com.android.systemui";
+    private ViewGroup mSystemIconArea;
+    private ViewGroup mStatusBarContents;
+    private LinearLayout container;
+    private View view;
 
-	@Override
-	public void setup(final XC_LayoutInflated.LayoutInflatedParam liparam, final View v) {
-		view = v;
+    @Override
+    public void setup(final XC_LayoutInflated.LayoutInflatedParam liparam, final View v) {
+        view = v;
 
-		FrameLayout root = (FrameLayout) liparam.view;
+        FrameLayout root = (FrameLayout) liparam.view;
 
-		mSystemIconArea = (ViewGroup) root.findViewById(liparam.res.getIdentifier("statusbar_icon", "id",
-				PKG_NAME_SYSTEM_UI));
+        mSystemIconArea = (ViewGroup) root.findViewById(liparam.res.getIdentifier("statusbar_icon", "id",
+                PKG_NAME_SYSTEM_UI));
 
-		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		layoutParams.addRule(RelativeLayout.END_OF, liparam.res.getIdentifier("notification_icon_area", "id",
-				PKG_NAME_SYSTEM_UI));
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParams.addRule(RelativeLayout.END_OF, liparam.res.getIdentifier("notification_icon_area", "id",
+                PKG_NAME_SYSTEM_UI));
 
-		mStatusBarContents = (ViewGroup) root.findViewById(liparam.res.getIdentifier("icons", "id",
-				PKG_NAME_SYSTEM_UI));
+        mStatusBarContents = (ViewGroup) root.findViewById(liparam.res.getIdentifier("icons", "id",
+                PKG_NAME_SYSTEM_UI));
 
-		container = new LinearLayout(root.getContext());
-		container.setOrientation(LinearLayout.HORIZONTAL);
-		container.setWeightSum(1);
-		container.setLayoutParams(layoutParams);
-		container.setVisibility(View.GONE);
-		mStatusBarContents.addView(container, 0);
-	}
+        container = new LinearLayout(root.getContext());
+        container.setOrientation(LinearLayout.HORIZONTAL);
+        container.setWeightSum(1);
+        container.setLayoutParams(layoutParams);
+        container.setVisibility(View.GONE);
+        mStatusBarContents.addView(container, 0);
+    }
 
-	@Override
-	public void setup(View root, View v) {
-		mSystemIconArea = (ViewGroup) root.findViewById(root.getResources().getIdentifier("statusbar_icon", "id",
-				PKG_NAME_SYSTEM_UI));
+    @Override
+    public void setup(View root, View v) {
+        view = v;
 
-		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		layoutParams.addRule(RelativeLayout.END_OF, root.getResources().getIdentifier("notification_icon_area", "id",
-				PKG_NAME_SYSTEM_UI));
+        mSystemIconArea = Utils.findViewById(root, "statusbar_icon", PKG_NAME_SYSTEM_UI);
 
-		mStatusBarContents = (ViewGroup) root.findViewById(root.getResources().getIdentifier("icons", "id",
-				PKG_NAME_SYSTEM_UI));
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParams.addRule(RelativeLayout.END_OF, Utils.findViewById(root, "notification_icon_area", PKG_NAME_SYSTEM_UI).getId());
 
-		container = new LinearLayout(root.getContext());
-		container.setOrientation(LinearLayout.HORIZONTAL);
-		container.setWeightSum(1);
-		container.setLayoutParams(layoutParams);
-		container.setVisibility(View.GONE);
-		mStatusBarContents.addView(container, 0);
-	}
+        mStatusBarContents = Utils.findViewById(root, "icons", PKG_NAME_SYSTEM_UI);
 
-	@Override
-	public void setLeft() {
-		removeFromParent();
+        container = new LinearLayout(root.getContext());
+        container.setOrientation(LinearLayout.HORIZONTAL);
+        container.setWeightSum(1);
+        container.setLayoutParams(layoutParams);
+        container.setVisibility(View.GONE);
+        mStatusBarContents.addView(container, 0);
+    }
 
-		container.addView(view);
-		((TextView) view).setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-		container.setVisibility(View.VISIBLE);
-	}
+    @Override
+    public void setLeft() {
+        removeFromParent();
 
-	@Override
-	public void setRight() {
-		removeFromParent();
+        container.addView(view);
+        ((TextView) view).setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        container.setVisibility(View.VISIBLE);
+    }
 
-		((TextView) view).setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-		mSystemIconArea.addView(view, 1);
-		container.setVisibility(View.GONE);
-	}
+    @Override
+    public void setRight() {
+        removeFromParent();
 
-	private void removeFromParent() {
-		if (view.getParent() != null) {
-			((ViewGroup) view.getParent()).removeView(view);
-		}
-	}
+        ((TextView) view).setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        mSystemIconArea.addView(view, 1);
+        container.setVisibility(View.GONE);
+    }
 
-	@Override
-	public ViewGroup getClockParent() {
-		return mStatusBarContents;
+    private void removeFromParent() {
+        if (view.getParent() != null) {
+            ((ViewGroup) view.getParent()).removeView(view);
+        }
+    }
 
-	}
+    @Override
+    public ViewGroup getClockParent() {
+        return mStatusBarContents;
+
+    }
 }
