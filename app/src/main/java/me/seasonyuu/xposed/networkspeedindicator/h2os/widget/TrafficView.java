@@ -374,13 +374,13 @@ public final class TrafficView extends TextView {
         boolean showInExactPosition = (showUploadSpeed && showDownloadSpeed);
 
         if (showUploadSpeed) {
-            strUploadValue = formatSpeed(uploadSpeed, uploadSuffix);
+            strUploadValue = formatSpeed(uploadSpeed > 0 ? uploadSpeed : 0, uploadSuffix);
         } else {
             strUploadValue = "";
         }
 
         if (showDownloadSpeed) {
-            strDownloadValue = formatSpeed(downloadSpeed, downloadSuffix);
+            strDownloadValue = formatSpeed(downloadSpeed > 0 ? downloadSpeed : 0, downloadSuffix);
         } else {
             strDownloadValue = "";
         }
@@ -405,8 +405,6 @@ public final class TrafficView extends TextView {
         } else {
             ret = strUploadValue + delimiter + strDownloadValue;
         }
-        if (strUploadValue.length() <= 0)
-            Log.d("Empty upload", "speed:" + uploadSpeed);
         return ret;
     }
 
