@@ -105,5 +105,10 @@
 	<string name="pref_get_speed_way">網路速度獲取模式</string>
 	<string name="speed_way_default">預設模式</string>
 	<string name="speed_way_gravity_box">GravityBox模式</string>
+    <string name="min_width">最小寬度</string>
+    <string name="min_width_summary">設定最小寬度可能修復某些 ROM 上的寬度計算問題</string>
+    <string name="unit_pixel">單位：px</string>
+    <string name="min_width_dialog_message">預設最小寬度為 0px，此時不會進行任何改動</string>
+	<string name="min_width_px_summary">最小寬度為 %s px</string>
 
 </resources>
