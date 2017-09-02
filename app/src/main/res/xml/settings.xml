@@ -114,6 +114,14 @@
             android:dependency="font_color"
             android:key="color"
             android:title="@string/dialog_color_picker" />
+
+        <EditTextPreference
+            android:key="min_width"
+            android:inputType="number"
+            android:hint="@string/unit_pixel"
+            android:title="@string/min_width"
+            android:dialogMessage="@string/min_width_dialog_message"
+            android:summary="@string/min_width_summary" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/others">
         <ListPreference
