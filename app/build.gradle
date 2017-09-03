@@ -9,8 +9,8 @@ android {
 		applicationId 'me.seasonyuu.xposed.networkspeedindicator.h2os'
 		minSdkVersion 21
 		targetSdkVersion 21
-		versionCode 13
-		versionName "2.6.0-beta3"
+		versionCode 14
+		versionName "2.6.0-beta4"
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
 	buildTypes {
