@@ -3,12 +3,12 @@ apply plugin: 'com.android.application'
 android {
 	signingConfigs {
 	}
-	compileSdkVersion 25
-	buildToolsVersion "25.0.3"
+	compileSdkVersion 21
+	buildToolsVersion "26.0.1"
 	defaultConfig {
 		applicationId 'me.seasonyuu.xposed.networkspeedindicator.h2os'
 		minSdkVersion 21
-		targetSdkVersion 25
+		targetSdkVersion 21
 		versionCode 13
 		versionName "2.6.0-beta3"
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
