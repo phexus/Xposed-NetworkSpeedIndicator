@@ -95,6 +95,10 @@ public final class TrafficView extends TextView {
 		this.iconTint = iconTint;
 	}
 
+	public int getIconTint() {
+		return iconTint;
+	}
+
 	@SuppressLint("NewApi")
 	public final void refreshColor() {
 		if (prefFontColor) {
