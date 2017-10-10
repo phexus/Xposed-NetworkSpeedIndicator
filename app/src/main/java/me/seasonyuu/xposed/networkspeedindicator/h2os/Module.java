@@ -2,12 +2,9 @@ package me.seasonyuu.xposed.networkspeedindicator.h2os;
 
 import android.annotation.SuppressLint;
 import android.content.res.XResources;
-import android.graphics.Color;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -196,6 +193,15 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
                 }
             });
 
+        } catch (ClassNotFoundError e) {
+            // Clock class not found, ignore
+            Log.w(TAG, "handleLoadPackage failure ignored: ", e);
+        } catch (NoSuchMethodError e) {
+            // setAlpha method not found, ignore
+            Log.w(TAG, "handleLoadPackage failure ignored: ", e);
+        }
+
+        try {
             final Class<?> sbiCtrlClass = XposedHelpers
                     .findClass("com.android.systemui.statusbar.phone.StatusBarIconController",
                             lpparam.classLoader);
@@ -209,11 +215,40 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
                     }
                 }
             });
-        } catch (ClassNotFoundError e) {
-            // Clock class not found, ignore
+        } catch (ClassNotFoundError | NoSuchMethodError e) {
+            // Clock class not found, try to hook text color
+            hookClockColor(XposedHelpers.findClass("com.android.systemui.statusbar.policy.Clock",
+                    lpparam.classLoader));
             Log.w(TAG, "handleLoadPackage failure ignored: ", e);
-        } catch (NoSuchMethodError e) {
-            // setAlpha method not found, ignore
+        }
+
+    }
+
+    private void hookClockColor(final Class clazz) {
+        try {
+            Method setTextColor = XposedHelpers.findMethodBestMatch(clazz, "setTextColor", Integer.class);
+            XposedBridge.hookMethod(setTextColor, new XC_MethodHook() {
+                @Override
+                protected final void afterHookedMethod(final MethodHookParam param) throws Throwable {
+                    try {
+                        if (trafficView == null)
+                            return;
+                        if (param.thisObject instanceof TextView) {
+                            TextView textView = (TextView) param.thisObject;
+                            int color = textView.getCurrentTextColor();
+                            if (trafficView.getIconTint() != color) {
+                                trafficView.setIconTint(color);
+                                trafficView.refreshColor();
+                            }
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "afterHookedMethod (setTextColor) failed: ", e);
+                        throw e;
+                    }
+                }
+            });
+        } catch (ClassNotFoundError | NoSuchMethodError e) {
+            // Clock class not found, ignore
             Log.w(TAG, "handleLoadPackage failure ignored: ", e);
         }
     }
