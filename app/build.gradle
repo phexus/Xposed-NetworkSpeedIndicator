@@ -1,5 +1,21 @@
 apply plugin: 'com.android.application'
 
+String git(String args) {
+	return "git $args".execute([], project.rootDir).text.trim()
+}
+
+def gitHash = git('rev-parse --short HEAD')
+def gitCommits = git('rev-list --count HEAD')
+def gitTag = git('tag').split("\n").last()
+def version
+if (gitTag.isEmpty()) {
+	version = "HEAD-$gitHash"
+} else if (git("rev-parse --short $gitTag") != gitHash) {
+	version = "$gitTag-$gitHash"
+} else {
+	version = gitTag
+}
+
 android {
 	signingConfigs {
 	}
@@ -9,8 +25,8 @@ android {
 		applicationId 'me.seasonyuu.xposed.networkspeedindicator.h2os'
 		minSdkVersion 21
 		targetSdkVersion 21
-		versionCode 14
-		versionName "2.6.0-beta4"
+		versionCode Integer.parseInt(gitCommits)
+		versionName version
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
 	buildTypes {
