@@ -1,11 +1,6 @@
-* v 2.4
-  - [x] 同步状态栏变色时机，消除延迟
-  - [x] 桌面可隐藏应用图标
-  - [x] 增加最小单位识别
-  - [ ] ~~网速计算方式加入魔趣的方式提供选择~~
-  - [x] 网速计算方式加入GravityBox的方式提供选择
-* v 2.6.0
-  - [ ] 支持 Color OS
-  - [ ] 不同网络情况下可定义不同颜色
-  - [ ] 支持自定义边距
+### Working:
+- [ ] Use new Android Oreo preference theme
 
+### Plan:
+- [ ] support custom string format, set as `{%.2f}Kb/s` to perform `512.00Kb/s`
+- [ ] custom hook method to fit modified stystem props 
