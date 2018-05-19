@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+String git(String args) {
+	return "git $args".execute([], project.rootDir).text.trim()
+}
+
+def gitHash = git('rev-parse --short HEAD')
+def gitCommits = git('rev-list --count HEAD')
+def gitTag = git('tag').split("\n").last()
+def version
+if (gitTag.isEmpty()) {
+	version = "HEAD-$gitHash"
+} else if (git("rev-parse --short $gitTag") != gitHash) {
+	version = "$gitTag-$gitHash"
+} else {
+	version = gitTag
+}
+
+android {
+	signingConfigs {
+	}
+	compileSdkVersion 21
+	buildToolsVersion '27.0.3'
+	defaultConfig {
+		applicationId 'me.seasonyuu.xposed.networkspeedindicator.h2os'
+		minSdkVersion 21
+		targetSdkVersion 21
+		versionCode Integer.parseInt(gitCommits)
+		versionName version
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+	}
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
+	productFlavors {
+	}
+}
+
+dependencies {
+	implementation fileTree(include: ['*.jar'], dir: 'libs')
+	implementation 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
+	implementation 'com.h6ah4i.android.compat:mulsellistprefcompat:1.0.0'
+	compileOnly 'de.robv.android.xposed:api:82'
+}
