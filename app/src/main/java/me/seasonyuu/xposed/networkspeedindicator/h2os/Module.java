@@ -179,21 +179,22 @@ public final class Module implements IXposedHookLoadPackage, IXposedHookInitPack
 								else
 									trafficView.mPositionCallback = new PositionCallback2p5();
 							} else {
-								p = new ProcessBuilder("/system/bin/getprop", "ro.miui.ui.version.name").redirectErrorStream(true)
-										.start();
-								BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-								String line = "";
-								while ((line = br.readLine()) != null) {
-									miuiVersion = line;
-								}
-								if (miuiVersion.length() > 0) {
-									Log.d(TAG, "Find MIUI " + miuiVersion);
-									trafficView.mPositionCallback = new PositionCallbackMiui8();
-								} else {
-									Log.e(TAG, "ROM VERSION is null");
-									// May not work
-									trafficView.mPositionCallback = new CommonPositionCallback();
-								}
+//								p = new ProcessBuilder("/system/bin/getprop", "ro.miui.ui.version.name").redirectErrorStream(true)
+//										.start();
+//								BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//								String line = "";
+//								while ((line = br.readLine()) != null) {
+//									miuiVersion = line;
+//								}
+//								if (miuiVersion.length() > 0) {
+//									Log.d(TAG, "Find MIUI " + miuiVersion);
+//									trafficView.mPositionCallback = new PositionCallbackMiui8();
+//								} else {
+//									Log.e(TAG, "ROM VERSION is null");
+//									// May not work
+//									trafficView.mPositionCallback = new CommonPositionCallback();
+//								}
+								trafficView.mPositionCallback = new CommonPositionCallback();
 							}
 
 							trafficView.mPositionCallback.setup(root, trafficView);
